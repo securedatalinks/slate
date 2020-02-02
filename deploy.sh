@@ -21,7 +21,16 @@ Options:
 
 
 run_build() {
+  yaml2json swagger.yaml -p -i4 > swagger.json
+  widdershins --search false --summary swagger.json -o slate.md
+  mv slate.md source/index.html.md
+  rm swagger.json
   bundle exec middleman build --clean
+}
+
+run_local() {
+  bundle install
+  bundle exec middleman server
 }
 
 parse_args() {
@@ -209,6 +218,9 @@ if [[ $1 = --source-only ]]; then
   run_build
 elif [[ $1 = --push-only ]]; then
   main "$@"
+elif [[ $1 = --local ]]; then
+  run_build
+  run_local
 else
   run_build
   main "$@"
