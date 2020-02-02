@@ -25,8 +25,6 @@ run_build() {
   widdershins --search false --summary swagger.json -o slate.md
   mv slate.md source/index.html.md
   rm swagger.json
-  git add source/index.html.md
-  git commit -am "updated index bassed on swagger"
   bundle exec middleman build --clean
 }
 
