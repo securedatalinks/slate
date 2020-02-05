@@ -21,82 +21,42 @@ headingLevel: 2
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
-# Introduction  
-  
 Welcome to the sCORe API. The api consists of multiple high-performance RESTful JSON endpoints that can be used to fetch the data about performance and reputation of different chainlink oracles.  
-test test
   
 We have client libraries in [python](https://github.com/securedatalinks/reputation-score-python-client),[golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO)! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.  
   
   
 # Quick Start Guide  
 ```shell  
-# With shell, you can just pass the correct header with each request  
-curl "api_endpoint_here"  
-  -H "Authorization: API_KEY"  
-  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
 ```
   
 For developers eager to start using sCORe API right away, there are 3 quick steps to make.  
   
 1. Sign up for a free API access key on [reputation.link](reputation.link)  
 2. (optional) If you own an oracle, register your oracle on the same page to be able to get more info about your oracle.  
-3. Make a test call using your API key. Check example on the right that fetches the most up-to-date reputation for all oracles;  
-  
+3. Make a test call using your API key. Check example on the right that fetches all  most up-to-date reputation for SDL oracle;  
 
 # Authentication  
-  
-## Obtaining API key  
+> Example using auth in HTTP headers
+> Make sure to replace `API_KEY` with your API key.  
+
+```shell   
+curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+```
+ 
 sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at [reputation.link](http://reputation.link).  
   
-## Using API key  
-  
-> Example using auth in request body   
-  
-```ruby  
-  
-#TODO  
-  
-```
-  
-```python  
-#TODO  
-```
-  
-```shell  
-# With shell, you can just pass the correct header with each request  
-curl "api_endpoint_here"  
-  -H "Authorization: API_KEY"  
-  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
-```
-  
-```javascript  
-#TODO  
-  
-```
-> Make sure to replace `API_KEY` with your API key.  
-  
-API key must be included in all API requests to the server.  
-There are 2 ways to supply API key with your call:  
-  
-1. In an HTTP header that looks like : `Authorization: API_KEY`  
-2. Via additional parameter in request body : `Authorization: "API_KEY"`  
-  
-<aside class="notice">  
-You must replace <code>API_KEY</code> with your personal API key.  
-</aside>  
+API key must be included in all API requests to the server via HTTP header:\n
+`Authorization: API_KEY`  
   
 # Standards and conventions  
-  
-## Endpoint Response Payload Format  
-Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
-A `data` object contains results for request if the call is successful.  
-A `status` object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull  
-See [status codes and rate limits](#status-codes-and-rate-limits) for details in different status codes.   
-  
+
+## Endpoint Response Payload Format 
+    
 ```
 {  
-  "data" : {  
+  "data" : {  \n
     ...  
   },  
   "status": {  
@@ -106,6 +66,12 @@ See [status codes and rate limits](#status-codes-and-rate-limits) for details in
   }  
 }  
 ```
+
+Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
+A `data` object contains results for request if the call is successful.  
+A `status` object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull  
+See [status codes and rate limits](#status-codes-and-rate-limits) for details in different status codes.
+
 ## Versioning  
 The sCORe API is versioned to guarantee new features and updates are non-breaking. The latest version of this API is /V1/.  
 All our API endpoints start with version.  
@@ -118,11 +84,8 @@ These updates are considered backwards compatible:
  * Adding new properties to existing API responses.  
  * Changing the order of properties in existing API responses.  
  * Changing the way some data are computed, while not changing the range of possible values     
-      -- e.q. We change the way reputation of oracle is computed, but it's still a value between 1 and 100.  
+      -- e.q. We change the way reputation of oracle is computed, but it's still a value between 1 and 100.  #TODO IS THIS BACKWARD COMPATIBLE?
   
-  
-##TODO maybe we should add minor versions, like stripe, maybe it's overkill  
-https://stripe.com/docs/api/versioning  
   
 ## Date and Time Formats  
 All endpoints that require date/time parameters allow timestamps to be passed in either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) timestamp format or in Unix time (eg. 1528249600).  
@@ -145,9 +108,8 @@ Error Code |  Error Message
 1007 | You've exceeded your API Key's daily rate limit.  
 1008 | You've exceeded your API Key's monthly rate limit.  
   
-The rate limits are:    
-XXXX per day    
-xxxx per month #TODO  
+## Rate limits
+Each key can be used to query our endpoints maximally 30 times per minute.
 
 ## Cache / Update frequency
 All data are updated every 5 minutes.
@@ -172,7 +134,7 @@ License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a
 
 <h1 id="score-api-public">Public</h1>
 
-Operations for retrieval of public data about oracles
+Operations for retrieval of public reputation data.
 
 ## historical reputations of one or all oracles
 
@@ -546,7 +508,7 @@ Returns latest update of reputation of given oracle
 This operation does not require authentication
 </aside>
 
-## Meta information about key, rate limits, user
+## Meta information about API key
 
 <a id="opIdgetKeyInfo"></a>
 
@@ -690,7 +652,7 @@ func main() {
 
 Returns info about given API KEY
 
-<h3 id="meta-information-about-key,-rate-limits,-user-parameters">Parameters</h3>
+<h3 id="meta-information-about-api-key-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -702,14 +664,13 @@ Returns info about given API KEY
 
 ```json
 {
-  "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "name": "Widget Adapter",
-  "nasdf": "Widget Adapter",
-  "releaseDate": "2016-08-29 09:12:33 UTC"
+  "email": "linkmarine@gmail.com",
+  "owned_oracles": 1.0094115432877367e+48,
+  "remaining_rate_limit": 23
 }
 ```
 
-<h3 id="meta-information-about-key,-rate-limits,-user-responses">Responses</h3>
+<h3 id="meta-information-about-api-key-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -869,9 +830,16 @@ Returns public information about oracle
 
 ```json
 {
-  "name": "ACME Corporation",
-  "homePage": "https://www.acme-corp.com",
-  "phone": "408-867-5309"
+  "name": "SDL oracle",
+  "website": "securedatalinks.com",
+  "url_name": "Website of secure data links",
+  "contact_email": "ashley@securedatalinks.com",
+  "email": "ashley@securedatalinks.com",
+  "description": "We are nearly the best oracle operator, use us!",
+  "oracle_address": 2.6742861887082504e+47,
+  "location": "Whole world",
+  "node_hosting": "Self hosted",
+  "eth_node_hosting": "AWS cloud"
 }
 ```
 
@@ -887,7 +855,7 @@ This operation does not require authentication
 
 <h1 id="score-api-oracle-owners">Oracle owners</h1>
 
-Operations available to oracle owners
+Operations available to oracle owners who registered their oracle on reputation.link
 
 ## All historical data used for computing reputation
 
@@ -1318,10 +1286,9 @@ This operation does not require authentication
 
 ```json
 {
-  "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "name": "Widget Adapter",
-  "nasdf": "Widget Adapter",
-  "releaseDate": "2016-08-29 09:12:33 UTC"
+  "email": "linkmarine@gmail.com",
+  "owned_oracles": 1.0094115432877367e+48,
+  "remaining_rate_limit": 23
 }
 
 ```
@@ -1330,10 +1297,9 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|id|string(uuid)|false|none|none|
-|name|string|false|none|none|
-|nasdf|string|false|none|none|
-|releaseDate|string(date-time)|false|none|none|
+|email|string|true|none|none|
+|owned_oracles|string|true|none|none|
+|remaining_rate_limit|integer|true|none|none|
 
 <h2 id="tocSoracle_info">Oracle_info</h2>
 
@@ -1341,9 +1307,16 @@ This operation does not require authentication
 
 ```json
 {
-  "name": "ACME Corporation",
-  "homePage": "https://www.acme-corp.com",
-  "phone": "408-867-5309"
+  "name": "SDL oracle",
+  "website": "securedatalinks.com",
+  "url_name": "Website of secure data links",
+  "contact_email": "ashley@securedatalinks.com",
+  "email": "ashley@securedatalinks.com",
+  "description": "We are nearly the best oracle operator, use us!",
+  "oracle_address": 2.6742861887082504e+47,
+  "location": "Whole world",
+  "node_hosting": "Self hosted",
+  "eth_node_hosting": "AWS cloud"
 }
 
 ```
@@ -1353,6 +1326,13 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |name|string|true|none|none|
-|homePage|string(url)|false|none|none|
-|phone|string|false|none|none|
+|website|string|true|none|none|
+|url_name|string|true|none|none|
+|contact_email|string|true|none|none|
+|email|string|true|none|none|
+|description|string|true|none|none|
+|oracle_address|string|true|none|none|
+|location|string|true|none|none|
+|node_hosting|string|true|none|none|
+|eth_node_hosting|string|true|none|none|
 

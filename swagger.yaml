@@ -4,84 +4,43 @@ info:
   version: 1.0.0
   description: |
 
-    # Introduction  
-      
     Welcome to the sCORe API. The api consists of multiple high-performance RESTful JSON endpoints that can be used to fetch the data about performance and reputation of different chainlink oracles.  
-    test test
-    HAHAHAH
       
     We have client libraries in [python](https://github.com/securedatalinks/reputation-score-python-client),[golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO)! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.  
       
       
     # Quick Start Guide  
     ```shell  
-    # With shell, you can just pass the correct header with each request  
-    curl "api_endpoint_here"  
-      -H "Authorization: API_KEY"  
-      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
     ```
       
     For developers eager to start using sCORe API right away, there are 3 quick steps to make.  
       
     1. Sign up for a free API access key on [reputation.link](reputation.link)  
     2. (optional) If you own an oracle, register your oracle on the same page to be able to get more info about your oracle.  
-    3. Make a test call using your API key. Check example on the right that fetches the most up-to-date reputation for all oracles;  
-      
+    3. Make a test call using your API key. Check example on the right that fetches all  most up-to-date reputation for SDL oracle;  
 
 
     # Authentication  
-      
-    ## Obtaining API key  
+    > Example using auth in HTTP headers
+    > Make sure to replace `API_KEY` with your API key.  
+    
+    ```shell   
+    curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+    ```
+     
     sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at [reputation.link](http://reputation.link).  
       
-    ## Using API key  
-      
-    > Example using auth in request body   
-      
-    ```ruby  
-      
-    #TODO  
-      
-    ```
-      
-    ```python  
-    #TODO  
-    ```
-      
-    ```shell  
-    # With shell, you can just pass the correct header with each request  
-    curl "api_endpoint_here"  
-      -H "Authorization: API_KEY"  
-      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
-    ```
-      
-    ```javascript  
-    #TODO  
-      
-    ```
-    > Make sure to replace `API_KEY` with your API key.  
-      
-    API key must be included in all API requests to the server.  
-    There are 2 ways to supply API key with your call:  
-      
-    1. In an HTTP header that looks like : `Authorization: API_KEY`  
-    2. Via additional parameter in request body : `Authorization: "API_KEY"`  
-      
-    <aside class="notice">  
-    You must replace <code>API_KEY</code> with your personal API key.  
-    </aside>  
+    API key must be included in all API requests to the server via HTTP header:
+    `Authorization: API_KEY`  
       
     # Standards and conventions  
-      
-    ## Endpoint Response Payload Format  
-    Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
-    A `data` object contains results for request if the call is successful.  
-    A `status` object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull  
-    See [status codes and rate limits](#status-codes-and-rate-limits) for details in different status codes.   
-      
+    
+    ## Endpoint Response Payload Format 
+        
     ```
     {  
-      "data" : {  
+      "data" : {
         ...  
       },  
       "status": {  
@@ -91,6 +50,13 @@ info:
       }  
     }  
     ```
+    
+    Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
+    A `data` object contains results for request if the call is successful.  
+    A `status` object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull  
+    See [status codes and rate limits](#status-codes-and-rate-limits) for details in different status codes.
+
+    
     ## Versioning  
     The sCORe API is versioned to guarantee new features and updates are non-breaking. The latest version of this API is /V1/.  
     All our API endpoints start with version.  
@@ -103,11 +69,8 @@ info:
      * Adding new properties to existing API responses.  
      * Changing the order of properties in existing API responses.  
      * Changing the way some data are computed, while not changing the range of possible values     
-          -- e.q. We change the way reputation of oracle is computed, but it's still a value between 1 and 100.  
+          -- e.q. We change the way reputation of oracle is computed, but it's still a value between 1 and 100.  #TODO IS THIS BACKWARD COMPATIBLE?
       
-      
-    ##TODO maybe we should add minor versions, like stripe, maybe it's overkill  
-    https://stripe.com/docs/api/versioning  
       
     ## Date and Time Formats  
     All endpoints that require date/time parameters allow timestamps to be passed in either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) timestamp format or in Unix time (eg. 1528249600).  
@@ -130,9 +93,9 @@ info:
     1007 | You've exceeded your API Key's daily rate limit.  
     1008 | You've exceeded your API Key's monthly rate limit.  
       
-    The rate limits are:    
-    XXXX per day    
-    xxxx per month #TODO  
+    ## Rate limits
+    Each key can be used to query our endpoints maximally 30 times per minute.
+    
 
     ## Cache / Update frequency
     All data are updated every 5 minutes.
@@ -154,9 +117,9 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: Public
-    description: Operations for retrieval of public data about oracles
+    description: Operations for retrieval of public reputation data.
   - name: Oracle owners
-    description: Operations available to oracle owners
+    description: Operations available to oracle owners who registered their oracle on reputation.link
 paths:
   /V1/reputations/historical:
     get:
@@ -224,7 +187,7 @@ paths:
     get:
       tags:
         - Public
-      summary: 'Meta information about key, rate limits, user'
+      summary: 'Meta information about API key'
       operationId: getKeyInfo
       description: Returns info about given API KEY
       consumes:
@@ -368,40 +331,67 @@ definitions:
   Key_info:
     type: object
     required:
-      - state
       - email
       - owned_oracles
+      - remaining_rate_limit
     properties:
-      id:
+      email:
         type: string
-        format: uuid
-        example: d290f1ee-6c54-4b01-90e6-d701748f0851
-      name:
+        example: linkmarine@gmail.com
+      owned_oracles:
         type: string
-        example: Widget Adapter
-      nasdf:
-        type: string
-        example: Widget Adapter
-      releaseDate:
-        type: string
-        format: date-time
-        example: '2016-08-29 09:12:33 UTC'
+        example: 0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D
+      remaining_rate_limit:
+        type: integer
+        example: 23
   Oracle_info:
     required:
-      - name
+     - name 
+     - website 
+     - url_name 
+     - contact_email 
+     - email 
+     - description 
+     - oracle_address 
+     - location 
+     - node_hosting 
+     - eth_node_hosting 
     properties:
       name:
         type: string
-        example: ACME Corporation
-      homePage:
+        example: SDL oracle
+      website:
         type: string
-        format: url
-        example: 'https://www.acme-corp.com'
-      phone:
+        example: securedatalinks.com
+      url_name:
         type: string
-        example: 408-867-5309
+        example: Website of secure data links
+      contact_email:
+        type: string
+        example: ashley@securedatalinks.com
+      email:
+        type: string
+        example: ashley@securedatalinks.com
+      description:
+        type: string
+        example: We are nearly the best oracle operator, use us!
+      oracle_address:
+        type: string
+        example: 0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8
+      location:
+        type: string
+        example: Whole world
+      node_hosting:
+        type: string
+        example: Self hosted
+      eth_node_hosting:
+        type: string
+        example: AWS cloud
+
+
+
+
 host: 'reputation.link:3001'
 basePath: /
 schemes:
   - https
-
