@@ -47,7 +47,7 @@ curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200
  
 sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at [reputation.link](http://reputation.link).  
   
-API key must be included in all API requests to the server via HTTP header:\n
+API key must be included in all API requests to the server via HTTP header:
 `Authorization: API_KEY`  
   
 # Standards and conventions  
@@ -56,7 +56,7 @@ API key must be included in all API requests to the server via HTTP header:\n
     
 ```
 {  
-  "data" : {  \n
+  "data" : {
     ...  
   },  
   "status": {  
@@ -665,7 +665,7 @@ Returns info about given API KEY
 ```json
 {
   "email": "linkmarine@gmail.com",
-  "owned_oracles": 1.0094115432877367e+48,
+  "owned_oracles": "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D",
   "remaining_rate_limit": 23
 }
 ```
@@ -836,7 +836,7 @@ Returns public information about oracle
   "contact_email": "ashley@securedatalinks.com",
   "email": "ashley@securedatalinks.com",
   "description": "We are nearly the best oracle operator, use us!",
-  "oracle_address": 2.6742861887082504e+47,
+  "oracle_address": "0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8",
   "location": "Whole world",
   "node_hosting": "Self hosted",
   "eth_node_hosting": "AWS cloud"
@@ -1287,7 +1287,7 @@ This operation does not require authentication
 ```json
 {
   "email": "linkmarine@gmail.com",
-  "owned_oracles": 1.0094115432877367e+48,
+  "owned_oracles": "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D",
   "remaining_rate_limit": 23
 }
 
@@ -1313,7 +1313,7 @@ This operation does not require authentication
   "contact_email": "ashley@securedatalinks.com",
   "email": "ashley@securedatalinks.com",
   "description": "We are nearly the best oracle operator, use us!",
-  "oracle_address": 2.6742861887082504e+47,
+  "oracle_address": "0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8",
   "location": "Whole world",
   "node_hosting": "Self hosted",
   "eth_node_hosting": "AWS cloud"

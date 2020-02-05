@@ -296,7 +296,7 @@ definitions:
         example: Ropsten
       oracle_address:
         type: string
-        example: 1.0094115432877367e+48
+        example: "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"
       reputation:
         type: number
         example: 95.4 
@@ -340,7 +340,7 @@ definitions:
         example: linkmarine@gmail.com
       owned_oracles:
         type: string
-        example: 0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D
+        example: "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"
       remaining_rate_limit:
         type: integer
         example: 23
@@ -377,7 +377,7 @@ definitions:
         example: We are nearly the best oracle operator, use us!
       oracle_address:
         type: string
-        example: 0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8
+        example: "0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8"
       location:
         type: string
         example: Whole world
