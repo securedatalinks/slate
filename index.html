@@ -209,7 +209,7 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1e815a84.png" class="logo" alt="Logo" />
+      <img src="images/logo-595c747c.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">Shell</a>
               <a href="#" data-language-name="http">HTTP</a>
@@ -225,21 +225,10 @@
             <a href="#score-api" class="toc-h1 toc-link" data-title="sCORe API v1.0.0">sCORe API v1.0.0</a>
           </li>
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
             <a href="#quick-start-guide" class="toc-h1 toc-link" data-title="Quick Start Guide">Quick Start Guide</a>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#obtaining-api-key" class="toc-h2 toc-link" data-title="Obtaining API key">Obtaining API key</a>
-                  </li>
-                  <li>
-                    <a href="#using-api-key" class="toc-h2 toc-link" data-title="Using API key">Using API key</a>
-                  </li>
-              </ul>
           </li>
           <li>
             <a href="#standards-and-conventions" class="toc-h1 toc-link" data-title="Standards and conventions">Standards and conventions</a>
@@ -251,13 +240,13 @@
                     <a href="#versioning" class="toc-h2 toc-link" data-title="Versioning">Versioning</a>
                   </li>
                   <li>
-                    <a href="#todo-maybe-we-should-add-minor-versions-like-stripe-maybe-it-39-s-overkill" class="toc-h2 toc-link" data-title="TODO maybe we should add minor versions, like stripe, maybe it's overkill">TODO maybe we should add minor versions, like stripe, maybe it's overkill</a>
-                  </li>
-                  <li>
                     <a href="#date-and-time-formats" class="toc-h2 toc-link" data-title="Date and Time Formats">Date and Time Formats</a>
                   </li>
                   <li>
                     <a href="#status-codes-and-rate-limits" class="toc-h2 toc-link" data-title="Status codes and rate limits">Status codes and rate limits</a>
+                  </li>
+                  <li>
+                    <a href="#rate-limits" class="toc-h2 toc-link" data-title="Rate limits">Rate limits</a>
                   </li>
                   <li>
                     <a href="#cache-update-frequency" class="toc-h2 toc-link" data-title="Cache / Update frequency">Cache / Update frequency</a>
@@ -277,7 +266,7 @@
                     <a href="#get-last-reputation-for-one-or-all-oracles" class="toc-h2 toc-link" data-title="get last reputation for one or all oracles">get last reputation for one or all oracles</a>
                   </li>
                   <li>
-                    <a href="#meta-information-about-key-rate-limits-user" class="toc-h2 toc-link" data-title="Meta information about key, rate limits, user">Meta information about key, rate limits, user</a>
+                    <a href="#meta-information-about-api-key" class="toc-h2 toc-link" data-title="Meta information about API key">Meta information about API key</a>
                   </li>
                   <li>
                     <a href="#metadata-about-oracles" class="toc-h2 toc-link" data-title="metadata about oracles">metadata about oracles</a>
@@ -324,64 +313,32 @@
 <blockquote>
 <p>Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.</p>
 </blockquote>
-<h1 id='introduction'>Introduction</h1>
-<p>Welcome to the sCORe API. The api consists of multiple high-performance RESTful JSON endpoints that can be used to fetch the data about performance and reputation of different chainlink oracles.<br>
-test test
-HAHAHAH</p>
+
+<p>Welcome to the sCORe API. The api consists of multiple high-performance RESTful JSON endpoints that can be used to fetch the data about performance and reputation of different chainlink oracles.  </p>
 
 <p>We have client libraries in <a href="https://github.com/securedatalinks/reputation-score-python-client">python</a>,<a href="https://github.com/securedatalinks/reputation-score-golang-client">golang</a> and <a href="https://github.com/securedatalinks/reputation-score-js-client">nodejs</a> generated from <a href="#TODO">swagger file</a>! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.  </p>
-<h1 id='quick-start-guide'>Quick Start Guide</h1><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request  </span>
-curl <span class="s2">"api_endpoint_here"</span>  
-  -H <span class="s2">"Authorization: API_KEY"</span>  
-  curl -X POST -d <span class="s2">"from=9870454"</span> -d <span class="s2">"to=9877754"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> reputation.link/reputation-interval
+<h1 id='quick-start-guide'>Quick Start Guide</h1><pre class="highlight shell tab-shell"><code>  curl -X POST -d <span class="s2">"from=9870454"</span> -d <span class="s2">"to=9877754"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> -H <span class="s2">"Authorization: API_KEY"</span> reputation.link/reputation-interval
 </code></pre>
 <p>For developers eager to start using sCORe API right away, there are 3 quick steps to make.  </p>
 
 <ol>
 <li>Sign up for a free API access key on <a href="reputation.link">reputation.link</a><br></li>
 <li>(optional) If you own an oracle, register your oracle on the same page to be able to get more info about your oracle.<br></li>
-<li>Make a test call using your API key. Check example on the right that fetches the most up-to-date reputation for all oracles;<br></li>
+<li>Make a test call using your API key. Check example on the right that fetches all  most up-to-date reputation for SDL oracle;<br></li>
 </ol>
-<h1 id='authentication'>Authentication</h1><h2 id='obtaining-api-key'>Obtaining API key</h2>
-<p>sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at <a href="http://reputation.link">reputation.link</a>.  </p>
-<h2 id='using-api-key'>Using API key</h2>
+<h1 id='authentication'>Authentication</h1>
 <blockquote>
-<p>Example using auth in request body   </p>
+<p>Example using auth in HTTP headers
+Make sure to replace <code>API_KEY</code> with your API key.  </p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code>
-<span class="c1">#TODO  </span>
-
-</code></pre><pre class="highlight python tab-python"><code><span class="c">#TODO  </span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request  </span>
-curl <span class="s2">"api_endpoint_here"</span>  
-  -H <span class="s2">"Authorization: API_KEY"</span>  
-  curl -X POST -d <span class="s2">"from=9870454"</span> -d <span class="s2">"to=9877754"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> reputation.link/reputation-interval
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="err">#</span><span class="nx">TODO</span>  
-
+<pre class="highlight shell tab-shell"><code>curl -X POST -H <span class="s2">"Authorization: API_KEY"</span>  -d <span class="s2">"from=1580083200"</span> -d <span class="s2">"to=1580183200"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> reputation.link/reputation-interval
 </code></pre>
-<blockquote>
-<p>Make sure to replace <code>API_KEY</code> with your API key.  </p>
-</blockquote>
+<p>sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at <a href="http://reputation.link">reputation.link</a>.  </p>
 
-<p>API key must be included in all API requests to the server.<br>
-There are 2 ways to supply API key with your call:  </p>
-
-<ol>
-<li>In an HTTP header that looks like : <code>Authorization: API_KEY</code><br></li>
-<li>Via additional parameter in request body : <code>Authorization: &quot;API_KEY&quot;</code><br></li>
-</ol>
-
-<aside class="notice">  
-You must replace <code>API_KEY</code> with your personal API key.  
-</aside>  
-  
-<h1 id='standards-and-conventions'>Standards and conventions</h1><h2 id='endpoint-response-payload-format'>Endpoint Response Payload Format</h2>
-<p>Each endpoint returns data in JSON format with 2 parts, <code>data</code> and <code>status</code>.<br>
-A <code>data</code> object contains results for request if the call is successful.<br>
-A <code>status</code> object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull<br>
-See <a href="#status-codes-and-rate-limits">status codes and rate limits</a> for details in different status codes.   </p>
-<pre class="highlight plaintext"><code>{  
-  "data" : {  
+<p>API key must be included in all API requests to the server via HTTP header:
+<code>Authorization: API_KEY</code>  </p>
+<h1 id='standards-and-conventions'>Standards and conventions</h1><h2 id='endpoint-response-payload-format'>Endpoint Response Payload Format</h2><pre class="highlight plaintext"><code>{  
+  "data" : {
     ...  
   },  
   "status": {  
@@ -390,7 +347,12 @@ See <a href="#status-codes-and-rate-limits">status codes and rate limits</a> for
     "error_message": "Invalid value for \"id\"",  
   }  
 }  
-</code></pre><h2 id='versioning'>Versioning</h2>
+</code></pre>
+<p>Each endpoint returns data in JSON format with 2 parts, <code>data</code> and <code>status</code>.<br>
+A <code>data</code> object contains results for request if the call is successful.<br>
+A <code>status</code> object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull<br>
+See <a href="#status-codes-and-rate-limits">status codes and rate limits</a> for details in different status codes.</p>
+<h2 id='versioning'>Versioning</h2>
 <p>The sCORe API is versioned to guarantee new features and updates are non-breaking. The latest version of this API is /V1/.<br>
 All our API endpoints start with version.  </p>
 
@@ -403,10 +365,8 @@ These updates are considered backwards compatible:  </p>
 <li>Adding new properties to existing API responses.<br></li>
 <li>Changing the order of properties in existing API responses.<br></li>
 <li>Changing the way some data are computed, while not changing the range of possible values<br>
-  -- e.q. We change the way reputation of oracle is computed, but it&#39;s still a value between 1 and 100.<br></li>
+  -- e.q. We change the way reputation of oracle is computed, but it&#39;s still a value between 1 and 100.  #TODO IS THIS BACKWARD COMPATIBLE?</li>
 </ul>
-<h2 id='todo-maybe-we-should-add-minor-versions-like-stripe-maybe-it-39-s-overkill'>TODO maybe we should add minor versions, like stripe, maybe it&#39;s overkill</h2>
-<p>https://stripe.com/docs/api/versioning  </p>
 <h2 id='date-and-time-formats'>Date and Time Formats</h2>
 <p>All endpoints that require date/time parameters allow timestamps to be passed in either <code>yyyy-mm-dd hh:mm:ss</code> (eq.2018-06-22 01:46:40) timestamp format or in Unix time (eg. 1528249600).<br>
 All timestamps returned in JSON payloads are returned in UTC time using human-readable format which follows this pattern: <code>yyyy-mm-dd hh:mm:ss</code><br>
@@ -458,10 +418,8 @@ If there was a problem processing the request, one of these status codes is retu
 <td>You&#39;ve exceeded your API Key&#39;s monthly rate limit.</td>
 </tr>
 </tbody></table>
-
-<p>The rate limits are:<br>
-XXXX per day<br>
-xxxx per month #TODO  </p>
+<h2 id='rate-limits'>Rate limits</h2>
+<p>Each key can be used to query our endpoints maximally 30 times per minute.</p>
 <h2 id='cache-update-frequency'>Cache / Update frequency</h2>
 <p>All data are updated every 5 minutes.</p>
 <h1 id='endpoint-overview'>Endpoint overview</h1>
@@ -508,7 +466,7 @@ License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a
 
 <h1 id="score-api-public">Public</h1>
 
-<p>Operations for retrieval of public data about oracles</p>
+<p>Operations for retrieval of public reputation data.</p>
 <h2 id='historical-reputations-of-one-or-all-oracles'>historical reputations of one or all oracles</h2>
 <p><a id="opIdrephist"></a></p>
 
@@ -907,7 +865,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='meta-information-about-key-rate-limits-user'>Meta information about key, rate limits, user</h2>
+<h2 id='meta-information-about-api-key'>Meta information about API key</h2>
 <p><a id="opIdgetKeyInfo"></a></p>
 
 <blockquote>
@@ -1028,7 +986,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 
 <p>Returns info about given API KEY</p>
 
-<h3 id="meta-information-about-key,-rate-limits,-user-parameters">Parameters</h3>
+<h3 id="meta-information-about-api-key-parameters">Parameters</h3>
 
 <table><thead>
 <tr>
@@ -1054,13 +1012,12 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 <p>200 Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d290f1ee-6c54-4b01-90e6-d701748f0851"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Widget Adapter"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"nasdf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Widget Adapter"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"releaseDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-29 09:12:33 UTC"</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"linkmarine@gmail.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"owned_oracles"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0094115432877367e+48</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_rate_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3 id="meta-information-about-key,-rate-limits,-user-responses">Responses</h3>
+<h3 id="meta-information-about-api-key-responses">Responses</h3>
 
 <table><thead>
 <tr>
@@ -1222,9 +1179,16 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 <p>200 Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACME Corporation"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"homePage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.acme-corp.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"408-867-5309"</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SDL oracle"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"website"</span><span class="p">:</span><span class="w"> </span><span class="s2">"securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"url_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Website of secure data links"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contact_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ashley@securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ashley@securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"We are nearly the best oracle operator, use us!"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"oracle_address"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.6742861887082504e+47</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whole world"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"node_hosting"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Self hosted"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"eth_node_hosting"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AWS cloud"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id="metadata-about-oracles-responses">Responses</h3>
@@ -1251,7 +1215,7 @@ This operation does not require authentication
 
 <h1 id="score-api-oracle-owners">Oracle owners</h1>
 
-<p>Operations available to oracle owners</p>
+<p>Operations available to oracle owners who registered their oracle on reputation.link</p>
 <h2 id='all-historical-data-used-for-computing-reputation'>All historical data used for computing reputation</h2>
 <p><a id="opIdfulhist"></a></p>
 
@@ -1764,10 +1728,9 @@ This operation does not require authentication
 
 <p><a id="schemakey_info"></a></p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d290f1ee-6c54-4b01-90e6-d701748f0851"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Widget Adapter"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"nasdf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Widget Adapter"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"releaseDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-29 09:12:33 UTC"</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"linkmarine@gmail.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"owned_oracles"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0094115432877367e+48</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_rate_limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre><h3 id='properties-3'>Properties</h3>
@@ -1781,30 +1744,23 @@ This operation does not require authentication
 </tr>
 </thead><tbody>
 <tr>
-<td>id</td>
-<td>string(uuid)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>name</td>
+<td>email</td>
 <td>string</td>
-<td>false</td>
+<td>true</td>
 <td>none</td>
 <td>none</td>
 </tr>
 <tr>
-<td>nasdf</td>
+<td>owned_oracles</td>
 <td>string</td>
-<td>false</td>
+<td>true</td>
 <td>none</td>
 <td>none</td>
 </tr>
 <tr>
-<td>releaseDate</td>
-<td>string(date-time)</td>
-<td>false</td>
+<td>remaining_rate_limit</td>
+<td>integer</td>
+<td>true</td>
 <td>none</td>
 <td>none</td>
 </tr>
@@ -1814,9 +1770,16 @@ This operation does not require authentication
 
 <p><a id="schemaoracle_info"></a></p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACME Corporation"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"homePage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.acme-corp.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"408-867-5309"</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SDL oracle"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"website"</span><span class="p">:</span><span class="w"> </span><span class="s2">"securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"url_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Website of secure data links"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contact_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ashley@securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ashley@securedatalinks.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"We are nearly the best oracle operator, use us!"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"oracle_address"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.6742861887082504e+47</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whole world"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"node_hosting"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Self hosted"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"eth_node_hosting"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AWS cloud"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre><h3 id='properties-4'>Properties</h3>
@@ -1837,16 +1800,65 @@ This operation does not require authentication
 <td>none</td>
 </tr>
 <tr>
-<td>homePage</td>
-<td>string(url)</td>
-<td>false</td>
+<td>website</td>
+<td>string</td>
+<td>true</td>
 <td>none</td>
 <td>none</td>
 </tr>
 <tr>
-<td>phone</td>
+<td>url_name</td>
 <td>string</td>
-<td>false</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>contact_email</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>oracle_address</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>location</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>node_hosting</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>eth_node_hosting</td>
+<td>string</td>
+<td>true</td>
 <td>none</td>
 <td>none</td>
 </tr>
