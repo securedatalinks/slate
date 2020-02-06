@@ -36,18 +36,17 @@ There are client libraries written in [python](https://github.com/securedatalink
 Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
 
 ```shell  
+  #Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
   curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
 ```
 
-@Tomas 'BE CLEARER HERE - Here is an example using auth in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
+The API key must be included in all API requests via the HTTP header:
+`Authorization: API_KEY`  
 
 ```shell   
 curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
 ```
   
-The API key must be included in all API requests via the HTTP header:
-
-`Authorization: API_KEY`  
   
 
     
@@ -112,6 +111,8 @@ Endpoint |  Error Message
 [/V1/oracles/info](#oracle-info) | Public information relating to an individual or multiple oracless
 [/V1/reputations/full/latest](#oracle-latest-full-data) | Latest snapshot relating to the owners oracle
 [/V1/reputations/full/historical](#oracle-historical-full-data) | All historical monitored data about given oracle. Only for oracle owners.
+
+30.1.2020 - First version of API
 
 Base URLs:
 
