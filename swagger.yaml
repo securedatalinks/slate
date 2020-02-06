@@ -4,39 +4,40 @@ info:
   version: 1.0.0
   description: |
 
-    Welcome to the sCORe API. The api consists of multiple high-performance RESTful JSON endpoints that can be used to fetch the data about performance and reputation of different chainlink oracles.  
+    The sCORe API consists of multiple high-performance RESTful JSON endpoints that can be used to fetch data relevant to the historical performance and reputation of Chainlink Oracles. 
       
-    We have client libraries in [python](https://github.com/securedatalinks/reputation-score-python-client),[golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO)! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.  
+    There are client libraries written in [python](https://github.com/securedatalinks/reputation-score-python-client), [golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO). If you require different language functionality then be sure to get into contact.
       
       
     # Quick Start Guide  
+    
+    * Sign up for a free API key on [reputation.link](reputation.link). 
+    * If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. 
+    * Once your key has been generated, make a test call to ensure functionality. 
+    * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
+      
+    ### "@Tomas we need a name here":
+    
+    Provide description of this: 
+    
     ```shell  
       curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
     ```
-      
-    For developers eager to start using sCORe API right away, there are 3 quick steps to make.  
-      
-    1. Sign up for a free API access key on [reputation.link](reputation.link)  
-    2. (optional) If you own an oracle, register your oracle on the same page to be able to get more info about your oracle.  
-    3. Make a test call using your API key. Check example on the right that fetches all  most up-to-date reputation for SDL oracle;  
-
-
+  
     # Authentication  
-    > Example using auth in HTTP headers
-    > Make sure to replace `API_KEY` with your API key.  
+    @Tomas 'BE CLEARER HERE - Here is an example using auth in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
     
     ```shell   
     curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
     ```
-     
-    sCORe uses API keys to allow access to the API. All requests made against the sCORe api must be validated with API key. In order to get API key, you must register at [reputation.link](http://reputation.link).  
       
-    API key must be included in all API requests to the server via HTTP header:
+    The API key must be included in all API requests via the HTTP header:
+    
     `Authorization: API_KEY`  
       
-    # Standards and conventions  
+    # Standards and Conventions  
     
-    ## Endpoint Response Payload Format 
+    ### Endpoint Response Payload Format 
         
     ```
     {  
@@ -51,35 +52,33 @@ info:
     }  
     ```
     
-    Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
-    A `data` object contains results for request if the call is successful.  
-    A `status` object contains the timestamp, when the call was executed and status code and message, indicating if the request was succesfull  
-    See [status codes and rate limits](#status-codes-and-rate-limits) for details in different status codes.
+    * Each endpoint returns data in JSON format with 2 parts, `data` and `status`.  
+    * A `data` object contains results for the request if the call is successful.  
+    * A `status` object contains the timestamp, when the call was executed, the status code and message which will  indicate if the request was succesfull.  
+    * See [status codes and rate limits](#status-codes-and-rate-limits) for details on different status codes.
 
     
     ## Versioning  
-    The sCORe API is versioned to guarantee new features and updates are non-breaking. The latest version of this API is /V1/.  
-    All our API endpoints start with version.  
+    The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
       
-    Backwards compatible updates might be added to API without creating new version. You can check our [Changelog](#Changelog) to see those changes.  
-    These updates are considered backwards compatible:  
+    Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) (@Tomas ??) to see those changes.  
+    
+    ### These updates are considered backwards compatible:  
       
      * Adding new API resources.  
      * Adding new optional request parameters to existing API methods.  
      * Adding new properties to existing API responses.  
      * Changing the order of properties in existing API responses.  
-     * Changing the way some data are computed, while not changing the range of possible values     
-          -- e.q. We change the way reputation of oracle is computed, but it's still a value between 1 and 100.  #TODO IS THIS BACKWARD COMPATIBLE?
-      
+     * Changing the way some data are computed, while not changing the range of possible values
       
     ## Date and Time Formats  
-    All endpoints that require date/time parameters allow timestamps to be passed in either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) timestamp format or in Unix time (eg. 1528249600).  
-    All timestamps returned in JSON payloads are returned in UTC time using human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ss`  
-    Data is collected, recorded, and reported in UTC time unless otherwise specified.  
+    * All endpoints that require date/time parameters allow timestamps to be passed in as either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) format or in Unix time frp,at (eg. 1528249600).  
+    * All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ss`  
+    * Data is collected, recorded, and reported in UTC time unless otherwise specified.  
       
     ## Status codes and rate limits  
-    Every endpoint always respond with HTTP status code 200 for both succesful requests and failures. The `status` object is always included in the JSON response. This object contains `status_code` and `error_message`.  
-    If there was a problem processing the request, one of these status codes is returned.  
+    * Every endpoint responds with HTTP status code 200 for both succesful requests and failures. The `status` object is always included in the JSON response. This object contains `status_code` and `error_message`.  
+    * If there was a problem processing the request, one of these status codes is returned.
       
     Error Code |  Error Message  
     -----------|---------------  
@@ -94,24 +93,24 @@ info:
     1008 | You've exceeded your API Key's monthly rate limit.  
       
     ## Rate limits
-    Each key can be used to query our endpoints maximally 30 times per minute.
+    Each key can be used to query the endpoint up to 30 times per minute.
     
 
     ## Cache / Update frequency
-    All data are updated every 5 minutes.
-
+    At this point all data are updated every 5 minutes. 
+    
     # Endpoint overview  
       
     Endpoint |  Error Message  
     -----------|---------------  
-    [/V1/reputations/historical](#historical-reputation) | historical reputations of one or more oracles
-    [/V1/reputation/latest](#latest-reputation) | latest reputation of one or more oracles  
-    [/V1/key/info](#API-key-metadata) | metadata about used API key (rate limits, permissions...)  
-    [/V1/oracles/info](#oracle-info) | Public info about one or more oracles
-    [/V1/reputations/full/latest](#oracle-latest-full-data) | All monitored data about given oracle. Only for oracle owners.
+    [/V1/reputations/historical](#historical-reputation) | Historical data relating to an individual or multiple oracles
+    [/V1/reputation/latest](#latest-reputation) | Latest data relating to an individual or multiple oracles  
+    [/V1/key/info](#API-key-metadata) | Metadata relating to the API key used  
+    [/V1/oracles/info](#oracle-info) | Public information relating to an individual or multiple oracless
+    [/V1/reputations/full/latest](#oracle-latest-full-data) | Latest snapshot relating to the owners oracle
     [/V1/reputations/full/historical](#oracle-historical-full-data) | All historical monitored data about given oracle. Only for oracle owners.
   contact:
-    email: ashley@securedatalinks.com
+    email: inquiry@reputation.link
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -127,25 +126,25 @@ paths:
         - Public
       summary: historical reputations of one or all oracles
       operationId: rephist
-      description: Returns each update of reputation between from and to timestamps for given oracle
+      description: Returns each update of reputation between start and end periods for a given oracle
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
         - in: query
-          name: from
-          description: Get only reputation after
+          name: start
+          description: Get data after
           type: integer
           required: true
         - in: query
-          name: to
-          description: Get only reputations before
+          name: end
+          description: Get data before
           type: integer
           required: true
         - in: query
           name: oracle_address
-          description: 'Get only reputations for giver oracle. If missing, get all oracles that were active between from and to'
+          description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
           type: string
           required: true
         - in: header
@@ -171,7 +170,7 @@ paths:
       parameters:
         - in: query
           name: oracle_address
-          description: 'Get only reputations for given oracle. If missing, get all oracles that were active between from and to'
+          description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
           type: string
           required: true
         - in: header
@@ -187,7 +186,7 @@ paths:
     get:
       tags:
         - Public
-      summary: 'Meta information about API key'
+      summary: 'Meta information relating to a specific API key'
       operationId: getKeyInfo
       description: Returns info about given API KEY
       consumes:
@@ -208,9 +207,9 @@ paths:
     get:
       tags:
         - Public
-      summary: metadata about oracles
+      summary: Metadata on oracles
       operationId: Oracles
-      description: Returns public information about oracle
+      description: Returns public data relevant to an oracle
       consumes:
         - application/json
       produces:
@@ -218,7 +217,7 @@ paths:
       parameters:
         - in: query
           name: oracle_addres
-          description: 'Get only reputations for given oracle. If missing, get all oracles that were active between from and to'
+          description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
           type: string
           required: true
       responses:
@@ -230,9 +229,9 @@ paths:
     get:
       tags:
         - Oracle owners
-      summary: All historical data used for computing reputation
+      summary: All historical data relating to an oracle
       operationId: fulhist
-      description: Returns all oracle performance data from given timeframe. The oracle must be registered on reputation.link with the account associated with API key.
+      description: Returns all oracle performance data within a specified timeframe. The oracle must be registered on reputation.link with an account associated with their respective API key.
       consumes:
         - application/json
       produces:
@@ -254,7 +253,7 @@ paths:
         - Oracle owners
       summary: metadata about oracle
       operationId: fullatest
-      description: Returns public information about oracle
+      description: Returns public Oracle information
       consumes:
         - application/json
       produces:
@@ -262,7 +261,7 @@ paths:
       parameters:
         - in: query
           name: oracle_addres
-          description: Returns latest oracle performance data. The oracle must be registered on reputation.link with the account associated with API key.
+          description: Returns latest oracle performance data. The oracle must be registered on reputation.link with an account associated with their respective API key.
           type: string
           required: true
       responses:
@@ -337,7 +336,7 @@ definitions:
     properties:
       email:
         type: string
-        example: linkmarine@gmail.com
+        example: oraclereputation@chainlink.com
       owned_oracles:
         type: string
         example: "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"
@@ -359,34 +358,34 @@ definitions:
     properties:
       name:
         type: string
-        example: SDL oracle
+        example: SDL Oracle
       website:
         type: string
-        example: securedatalinks.com
+        example: Secure Data Links
       url_name:
         type: string
-        example: Website of secure data links
+        example: www.securedatalinks.com
       contact_email:
         type: string
-        example: ashley@securedatalinks.com
+        example: admin@securedatalinks.com
       email:
         type: string
-        example: ashley@securedatalinks.com
+        example: admin@securedatalinks.com
       description:
         type: string
-        example: We are nearly the best oracle operator, use us!
+        example: Integrate with the Secure Data Links Oracle
       oracle_address:
         type: string
         example: "0x2Ed7E9fCd3c0568dC6167F0b8aEe06A02CD9ebd8"
       location:
         type: string
-        example: Whole world
+        example: Brisbane, Australia
       node_hosting:
         type: string
-        example: Self hosted
+        example: Hosted locally with GCP backups
       eth_node_hosting:
         type: string
-        example: AWS cloud
+        example: GCP
 
 
 
@@ -395,3 +394,4 @@ host: 'reputation.link:3001'
 basePath: /
 schemes:
   - https
+
