@@ -28,27 +28,33 @@ There are client libraries written in [python](https://github.com/securedatalink
   
 # Quick Start Guide  
 
+> Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
+
+```shell  
+  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
+```
+
 * Sign up for a free API key on [reputation.link](reputation.link). 
 * If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. 
 * Once your key has been generated, make a test call to ensure functionality. 
 * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
   
-Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
 
-```shell  
-  #Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
-  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
+# Authentication  
+
+> Here is an example using API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
+
+```shell   
+curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
 ```
 
 The API key must be included in all API requests via the HTTP header:
 `Authorization: API_KEY`  
 
-```shell   
-curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
-```
   
-  
+# Standards and Conventions  
 
+### Endpoint Response Payload Format 
     
 ```
 {  
@@ -68,10 +74,12 @@ curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200
 * A `status` object contains the timestamp, when the call was executed, the status code and message which will  indicate if the request was succesfull.  
 * See [status codes and rate limits](#status-codes-and-rate-limits) for details on different status codes.
 
+## Versioning  
 The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
   
-Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) (@Tomas ??) to see those changes.  
+Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) to see those changes.  
 
+### These updates are considered backwards compatible:  
   
  * Adding new API resources.  
  * Adding new optional request parameters to existing API methods.  
@@ -79,10 +87,12 @@ Backwards compatible updates may be added to the API without creating new versio
  * Changing the order of properties in existing API responses.  
  * Changing the way some data are computed, while not changing the range of possible values
   
+## Date and Time Formats  
 * All endpoints that require date/time parameters allow timestamps to be passed in as either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) format or in Unix time frp,at (eg. 1528249600).  
 * All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ss`  
 * Data is collected, recorded, and reported in UTC time unless otherwise specified.  
   
+## Status codes and rate limits  
 * Every endpoint responds with HTTP status code 200 for both succesful requests and failures. The `status` object is always included in the JSON response. This object contains `status_code` and `error_message`.  
 * If there was a problem processing the request, one of these status codes is returned.
   
@@ -98,10 +108,13 @@ Error Code |  Error Message
 1007 | You've exceeded your API Key's daily rate limit.  
 1008 | You've exceeded your API Key's monthly rate limit.  
   
+## Rate limits
 Each key can be used to query the endpoint up to 30 times per minute.
 
+## Cache / Update frequency
 At this point all data are updated every 5 minutes. 
 
+# Endpoint overview  
   
 Endpoint |  Error Message  
 -----------|---------------  
@@ -112,6 +125,7 @@ Endpoint |  Error Message
 [/V1/reputations/full/latest](#oracle-latest-full-data) | Latest snapshot relating to the owners oracle
 [/V1/reputations/full/historical](#oracle-historical-full-data) | All historical monitored data about given oracle. Only for oracle owners.
 
+# Changelog
 30.1.2020 - First version of API
 
 Base URLs:

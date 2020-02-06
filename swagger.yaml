@@ -11,28 +11,31 @@ info:
       
     # Quick Start Guide  
     
+    > Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
+    
+    ```shell  
+      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
+    ```
+
     * Sign up for a free API key on [reputation.link](reputation.link). 
     * If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. 
     * Once your key has been generated, make a test call to ensure functionality. 
     * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
       
-    Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
-    
-    ```shell  
-      #Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
-      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
-    ```
-  
+
+
     # Authentication  
+
+    > Here is an example using API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
+
+    ```shell   
+    curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+    ```
+
     The API key must be included in all API requests via the HTTP header:
     `Authorization: API_KEY`  
 
     
-    ```shell   
-      #Here is an example using API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
-    curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
-    ```
-      
       
     # Standards and Conventions  
     
@@ -60,7 +63,7 @@ info:
     ## Versioning  
     The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
       
-    Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) (@Tomas ??) to see those changes.  
+    Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) to see those changes.  
     
     ### These updates are considered backwards compatible:  
       
