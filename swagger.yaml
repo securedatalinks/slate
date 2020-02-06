@@ -16,16 +16,14 @@ info:
     * Once your key has been generated, make a test call to ensure functionality. 
     * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
       
-    ### "@Tomas we need a name here":
-    
-    Provide description of this: 
+    Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
     
     ```shell  
       curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
     ```
   
     # Authentication  
-    @Tomas 'BE CLEARER HERE - Here is an example using auth in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
+    Here is an example sneding API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
     
     ```shell   
     curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
