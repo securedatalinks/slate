@@ -228,30 +228,51 @@
             <a href="#quick-start-guide" class="toc-h1 toc-link" data-title="Quick Start Guide">Quick Start Guide</a>
           </li>
           <li>
-            <a href="#score-api-public" class="toc-h1 toc-link" data-title="Public">Public</a>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
+            <a href="#standards-and-conventions" class="toc-h1 toc-link" data-title="Standards and Conventions">Standards and Conventions</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#historical-reputations-of-one-or-all-oracles" class="toc-h2 toc-link" data-title="historical reputations of one or all oracles">historical reputations of one or all oracles</a>
+                    <a href="#endpoint-response-payload-format" class="toc-h2 toc-link" data-title="Endpoint Response Payload Format">Endpoint Response Payload Format</a>
                   </li>
                   <li>
-                    <a href="#get-last-reputation-for-one-or-all-oracles" class="toc-h2 toc-link" data-title="get last reputation for one or all oracles">get last reputation for one or all oracles</a>
+                    <a href="#versioning" class="toc-h2 toc-link" data-title="Versioning">Versioning</a>
+                  </li>
+                  <li>
+                    <a href="#date-and-time-formats" class="toc-h2 toc-link" data-title="Date and Time Formats">Date and Time Formats</a>
+                  </li>
+                  <li>
+                    <a href="#status-codes" class="toc-h2 toc-link" data-title="Status codes">Status codes</a>
+                  </li>
+                  <li>
+                    <a href="#rate-limits" class="toc-h2 toc-link" data-title="Rate limits">Rate limits</a>
+                  </li>
+                  <li>
+                    <a href="#cache-update-frequency" class="toc-h2 toc-link" data-title="Cache / Update frequency">Cache / Update frequency</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#endpoint-overview" class="toc-h1 toc-link" data-title="Endpoint overview">Endpoint overview</a>
+          </li>
+          <li>
+            <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
+          </li>
+          <li>
+            <a href="#score-api-public-endpoints" class="toc-h1 toc-link" data-title="Public endpoints">Public endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#historical-reputations-of-one-oracle" class="toc-h2 toc-link" data-title="historical reputations of one oracle">historical reputations of one oracle</a>
+                  </li>
+                  <li>
+                    <a href="#get-last-reputation-for-one-oracle" class="toc-h2 toc-link" data-title="get last reputation for one oracle">get last reputation for one oracle</a>
                   </li>
                   <li>
                     <a href="#meta-information-relating-to-a-specific-api-key" class="toc-h2 toc-link" data-title="Meta information relating to a specific API key">Meta information relating to a specific API key</a>
                   </li>
                   <li>
                     <a href="#metadata-on-oracles" class="toc-h2 toc-link" data-title="Metadata on oracles">Metadata on oracles</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#score-api-oracle-owners" class="toc-h1 toc-link" data-title="Oracle owners">Oracle owners</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#all-historical-data-relating-to-an-oracle" class="toc-h2 toc-link" data-title="All historical data relating to an oracle">All historical data relating to an oracle</a>
-                  </li>
-                  <li>
-                    <a href="#metadata-about-oracle" class="toc-h2 toc-link" data-title="metadata about oracle">metadata about oracle</a>
                   </li>
               </ul>
           </li>
@@ -287,23 +308,28 @@
 
 <p>The sCORe API consists of multiple high-performance RESTful JSON endpoints that can be used to fetch data relevant to the historical performance and reputation of Chainlink Oracles. </p>
 
-<p>There are client libraries written in <a href="https://github.com/securedatalinks/reputation-score-python-client">python</a>, <a href="https://github.com/securedatalinks/reputation-score-golang-client">golang</a> and <a href="https://github.com/securedatalinks/reputation-score-js-client">nodejs</a> generated from <a href="#TODO">swagger file</a>. If you require different language functionality then be sure to get into contact.</p>
+<p>There are client libraries written in <a href="https://github.com/securedatalinks/reputation-score-python-client">python</a>, <a href="https://github.com/securedatalinks/reputation-score-golang-client">golang</a> and <a href="https://github.com/securedatalinks/reputation-score-js-client">nodejs</a> generated from <a href="https://github.com/securedatalinks/slate/blob/master/swagger.yaml">swagger file</a>. If you require different language functionality then be sure to get into contact.</p>
 <h1 id='quick-start-guide'>Quick Start Guide</h1>
+<blockquote>
+<p>Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>  curl -X GET -H <span class="s2">"Authentication: API_KEY"</span> <span class="s2">"reputation.link/v1/reputations/historical?start=0&amp;end=99877754&amp;oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"</span>
+</code></pre>
 <ul>
-<li>Sign up for a free API key on <a href="reputation.link">reputation.link</a>. </li>
+<li>Sign up for a free API key on <a href="https://reputation.link">reputation.link</a>. </li>
 <li>If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. </li>
 <li>Once your key has been generated, make a test call to ensure functionality. </li>
 <li>Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.</li>
 </ul>
-
-<p>Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020</p>
-<pre class="highlight shell tab-shell"><code>  <span class="c">#Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020</span>
-  curl -X POST -d <span class="s2">"from=9870454"</span> -d <span class="s2">"to=9877754"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> -H <span class="s2">"Authorization: API_KEY"</span> reputation.link/reputation-interval
+<h1 id='authentication'>Authentication</h1>
+<blockquote>
+<p>Here is an example using API_KEY in HTTP headers&#39;. Make sure to replace <code>API_KEY</code> with your newly generated key.  </p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>  curl -X GET -H <span class="s2">"Authentication: API_KEY"</span> <span class="s2">"reputation.link/v1/reputations/historical?start=0&amp;end=99877754&amp;oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"</span>
 </code></pre>
 <p>The API key must be included in all API requests via the HTTP header:
-<code>Authorization: API_KEY</code>  </p>
-<pre class="highlight shell tab-shell"><code>curl -X POST -H <span class="s2">"Authorization: API_KEY"</span>  -d <span class="s2">"from=1580083200"</span> -d <span class="s2">"to=1580183200"</span> -d <span class="s2">"oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span> reputation.link/reputation-interval
-</code></pre><pre class="highlight plaintext"><code>{  
+<code>Authentication: API_KEY</code>  </p>
+<h1 id='standards-and-conventions'>Standards and Conventions</h1><h3 id='endpoint-response-payload-format'>Endpoint Response Payload Format</h3><pre class="highlight plaintext"><code>{  
   "data" : {
     ...  
   },  
@@ -320,25 +346,28 @@
 <li>A <code>status</code> object contains the timestamp, when the call was executed, the status code and message which will  indicate if the request was succesfull.<br></li>
 <li>See <a href="#status-codes-and-rate-limits">status codes and rate limits</a> for details on different status codes.</li>
 </ul>
+<h2 id='versioning'>Versioning</h2>
+<p>The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is v1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  </p>
 
-<p>The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  </p>
-
-<p>Backwards compatible updates may be added to the API without creating new version. You can check our <a href="#Changelog">Changelog</a> (@Tomas ??) to see those changes.  </p>
-
+<p>Backwards compatible updates may be added to the API without creating new version. You can check our <a href="#changelog">Changelog</a> to see those changes.  </p>
+<h3 id='these-updates-are-considered-backwards-compatible'>These updates are considered backwards compatible:</h3>
 <ul>
 <li>Adding new API resources.<br></li>
 <li>Adding new optional request parameters to existing API methods.<br></li>
 <li>Adding new properties to existing API responses.<br></li>
 <li>Changing the order of properties in existing API responses.<br></li>
-<li><p>Changing the way some data are computed, while not changing the range of possible values</p>
-
+<li>Changing the way some data are computed, while not changing the range of possible values</li>
+</ul>
+<h2 id='date-and-time-formats'>Date and Time Formats</h2>
 <ul>
-<li>All endpoints that require date/time parameters allow timestamps to be passed in as either <code>yyyy-mm-dd hh:mm:ss</code> (eq.2018-06-22 01:46:40) format or in Unix time frp,at (eg. 1528249600).<br></li>
-<li>All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: <code>yyyy-mm-dd hh:mm:ss</code><br></li>
+<li>All endpoints that require date/time parameters allow timestamps to be passed as Unix time format (eg. 1528249600).<br></li>
+<li>All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: <code>yyyy-mm-dd hh:mm:ssZ</code><br></li>
 <li>Data is collected, recorded, and reported in UTC time unless otherwise specified.<br></li>
+</ul>
+<h2 id='status-codes'>Status codes</h2>
+<ul>
 <li>Every endpoint responds with HTTP status code 200 for both succesful requests and failures. The <code>status</code> object is always included in the JSON response. This object contains <code>status_code</code> and <code>error_message</code>.<br></li>
 <li>If there was a problem processing the request, one of these status codes is returned.</li>
-</ul></li>
 </ul>
 
 <table><thead>
@@ -384,11 +413,11 @@
 <td>You&#39;ve exceeded your API Key&#39;s monthly rate limit.</td>
 </tr>
 </tbody></table>
-
+<h2 id='rate-limits'>Rate limits</h2>
 <p>Each key can be used to query the endpoint up to 30 times per minute.</p>
-
+<h2 id='cache-update-frequency'>Cache / Update frequency</h2>
 <p>At this point all data are updated every 5 minutes. </p>
-
+<h1 id='endpoint-overview'>Endpoint overview</h1>
 <table><thead>
 <tr>
 <th>Endpoint</th>
@@ -396,31 +425,23 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><a href="#historical-reputation">/V1/reputations/historical</a></td>
-<td>Historical data relating to an individual or multiple oracles</td>
+<td><a href="#historical-reputations-of-one-oracle">/v1/reputations/historical</a></td>
+<td>Historical data relating to an individual oracle</td>
 </tr>
 <tr>
-<td><a href="#latest-reputation">/V1/reputation/latest</a></td>
-<td>Latest data relating to an individual or multiple oracles</td>
+<td><a href="#get-last-reputation-for-one-oracle">/v1/reputations/latest</a></td>
+<td>Latest data relating to an individual oracle</td>
 </tr>
 <tr>
-<td><a href="#API-key-metadata">/V1/key/info</a></td>
+<td><a href="#meta-information-relating-to-a-specific-api-key">/v1/key/info</a></td>
 <td>Metadata relating to the API key used</td>
 </tr>
 <tr>
-<td><a href="#oracle-info">/V1/oracles/info</a></td>
-<td>Public information relating to an individual or multiple oracless</td>
-</tr>
-<tr>
-<td><a href="#oracle-latest-full-data">/V1/reputations/full/latest</a></td>
-<td>Latest snapshot relating to the owners oracle</td>
-</tr>
-<tr>
-<td><a href="#oracle-historical-full-data">/V1/reputations/full/historical</a></td>
-<td>All historical monitored data about given oracle. Only for oracle owners.</td>
+<td><a href="#metadata-on-oracles">/v1/oracles/info</a></td>
+<td>Public information relating to an individual oracle</td>
 </tr>
 </tbody></table>
-
+<h1 id='changelog'>Changelog</h1>
 <p>30.1.2020 - First version of API</p>
 
 <p>Base URLs:</p>
@@ -432,21 +453,21 @@
 <p>Email: <a href="mailto:inquiry@reputation.link">Support</a> 
 License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a></p>
 
-<h1 id="score-api-public">Public</h1>
+<h1 id="score-api-public-endpoints">Public endpoints</h1>
 
-<p>Operations for retrieval of public reputation data.</p>
-<h2 id='historical-reputations-of-one-or-all-oracles'>historical reputations of one or all oracles</h2>
+<p>Operations for retrieval of reputation data.</p>
+<h2 id='historical-reputations-of-one-oracle'>historical reputations of one oracle</h2>
 <p><a id="opIdrephist"></a></p>
 
 <blockquote>
 <p>Code samples</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span class="o">=</span>0&amp;end<span class="o">=</span>0&amp;oracle_address<span class="o">=</span>string <span class="se">\</span>
+curl -X GET https://reputation.link:3001/v1/reputations/historical?start<span class="o">=</span>0&amp;end<span class="o">=</span>0&amp;oracle_address<span class="o">=</span>string <span class="se">\</span>
   -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
   -H <span class="s1">'Authentication: string'</span>
 
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/v1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Authentication</span><span class="p">:</span> <span class="s">string</span>
@@ -458,7 +479,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
 <span class="p">};</span>
 
 <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/reputations/historical'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/v1/reputations/historical'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">data</span><span class="p">:</span> <span class="s1">'?start=0&amp;end=0&amp;oracle_address=string'</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
@@ -475,7 +496,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
 
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string'</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/v1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string'</span><span class="p">,</span>
 <span class="p">{</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
 
@@ -495,7 +516,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
   <span class="s1">'Authentication'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">}</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/reputations/historical'</span><span class="p">,</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/v1/reputations/historical'</span><span class="p">,</span>
   <span class="ss">params: </span><span class="p">{</span>
   <span class="s1">'start'</span> <span class="o">=&gt;</span> <span class="s1">'integer'</span><span class="p">,</span>
 <span class="s1">'end'</span> <span class="o">=&gt;</span> <span class="s1">'integer'</span><span class="p">,</span>
@@ -510,13 +531,13 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
   <span class="s">'Authentication'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/reputations/historical'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/v1/reputations/historical'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
   <span class="s">'start'</span><span class="p">:</span> <span class="s">'0'</span><span class="p">,</span>  <span class="s">'end'</span><span class="p">:</span> <span class="s">'0'</span><span class="p">,</span>  <span class="s">'oracle_address'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string"</span><span class="o">);</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/v1/reputations/historical?start=0&amp;end=0&amp;oracle_address=string"</span><span class="o">);</span>
 <span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
 <span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
 <span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
@@ -546,7 +567,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
     </span><span class="p">}</span><span class="x">
 
     </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/reputations/historical"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/v1/reputations/historical"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
     </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
 
     </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
@@ -555,11 +576,11 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
 </span><span class="p">}</span><span class="x">
 
 </span></code></pre>
-<p><code>GET /V1/reputations/historical</code></p>
+<p><code>GET /v1/reputations/historical</code></p>
 
 <p>Returns each update of reputation between start and end periods for a given oracle</p>
 
-<h3 id="historical-reputations-of-one-or-all-oracles-parameters">Parameters</h3>
+<h3 id="historical-reputations-of-one-oracle-parameters">Parameters</h3>
 
 <table><thead>
 <tr>
@@ -589,14 +610,14 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
 <td>query</td>
 <td>string</td>
 <td>true</td>
-<td>Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods</td>
+<td>Get performance data for a specified oracle.</td>
 </tr>
 <tr>
 <td>Authentication</td>
 <td>header</td>
 <td>string</td>
 <td>true</td>
-<td>none</td>
+<td>API key</td>
 </tr>
 </tbody></table>
 
@@ -622,7 +643,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<h3 id="historical-reputations-of-one-or-all-oracles-responses">Responses</h3>
+<h3 id="historical-reputations-of-one-oracle-responses">Responses</h3>
 
 <table><thead>
 <tr>
@@ -643,18 +664,18 @@ curl -X GET https://reputation.link:3001/V1/reputations/historical?start<span cl
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='get-last-reputation-for-one-or-all-oracles'>get last reputation for one or all oracles</h2>
+<h2 id='get-last-reputation-for-one-oracle'>get last reputation for one oracle</h2>
 <p><a id="opIdreplate"></a></p>
 
 <blockquote>
 <p>Code samples</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<span class="o">=</span>string <span class="se">\</span>
+curl -X GET https://reputation.link:3001/v1/reputations/latest?oracle_address<span class="o">=</span>string <span class="se">\</span>
   -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
   -H <span class="s1">'Authentication: string'</span>
 
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/reputations/latest?oracle_address=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/v1/reputations/latest?oracle_address=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Authentication</span><span class="p">:</span> <span class="s">string</span>
@@ -666,7 +687,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
 <span class="p">};</span>
 
 <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/reputations/latest'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/v1/reputations/latest'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">data</span><span class="p">:</span> <span class="s1">'?oracle_address=string'</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
@@ -683,7 +704,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
 
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/reputations/latest?oracle_address=string'</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/v1/reputations/latest?oracle_address=string'</span><span class="p">,</span>
 <span class="p">{</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
 
@@ -703,7 +724,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
   <span class="s1">'Authentication'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">}</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/reputations/latest'</span><span class="p">,</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/v1/reputations/latest'</span><span class="p">,</span>
   <span class="ss">params: </span><span class="p">{</span>
   <span class="s1">'oracle_address'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">},</span> <span class="ss">headers: </span><span class="n">headers</span>
@@ -716,13 +737,13 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
   <span class="s">'Authentication'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/reputations/latest'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/v1/reputations/latest'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
   <span class="s">'oracle_address'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/reputations/latest?oracle_address=string"</span><span class="o">);</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/v1/reputations/latest?oracle_address=string"</span><span class="o">);</span>
 <span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
 <span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
 <span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
@@ -752,7 +773,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
     </span><span class="p">}</span><span class="x">
 
     </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/reputations/latest"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/v1/reputations/latest"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
     </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
 
     </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
@@ -761,11 +782,11 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
 </span><span class="p">}</span><span class="x">
 
 </span></code></pre>
-<p><code>GET /V1/reputations/latest</code></p>
+<p><code>GET /v1/reputations/latest</code></p>
 
 <p>Returns latest update of reputation of given oracle</p>
 
-<h3 id="get-last-reputation-for-one-or-all-oracles-parameters">Parameters</h3>
+<h3 id="get-last-reputation-for-one-oracle-parameters">Parameters</h3>
 
 <table><thead>
 <tr>
@@ -781,14 +802,14 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
 <td>query</td>
 <td>string</td>
 <td>true</td>
-<td>Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods</td>
+<td>Get performance data for a specified oracle.</td>
 </tr>
 <tr>
 <td>Authentication</td>
 <td>header</td>
 <td>string</td>
 <td>true</td>
-<td>none</td>
+<td>API key</td>
 </tr>
 </tbody></table>
 
@@ -812,7 +833,7 @@ curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address<sp
   </span><span class="s2">"assignment_complete_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3 id="get-last-reputation-for-one-or-all-oracles-responses">Responses</h3>
+<h3 id="get-last-reputation-for-one-oracle-responses">Responses</h3>
 
 <table><thead>
 <tr>
@@ -840,11 +861,11 @@ This operation does not require authentication
 <p>Code samples</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
+curl -X GET https://reputation.link:3001/v1/key/info <span class="se">\</span>
   -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
   -H <span class="s1">'Authentication: string'</span>
 
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/key/info</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/v1/key/info</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Authentication</span><span class="p">:</span> <span class="s">string</span>
@@ -856,7 +877,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 <span class="p">};</span>
 
 <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/key/info'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/v1/key/info'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
 
   <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
@@ -873,7 +894,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/key/info'</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/v1/key/info'</span><span class="p">,</span>
 <span class="p">{</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
 
@@ -893,7 +914,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
   <span class="s1">'Authentication'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">}</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/key/info'</span><span class="p">,</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/v1/key/info'</span><span class="p">,</span>
   <span class="ss">params: </span><span class="p">{</span>
   <span class="p">},</span> <span class="ss">headers: </span><span class="n">headers</span>
 
@@ -905,13 +926,13 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
   <span class="s">'Authentication'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/key/info'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/v1/key/info'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
 
 <span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/key/info"</span><span class="o">);</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/v1/key/info"</span><span class="o">);</span>
 <span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
 <span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
 <span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
@@ -941,7 +962,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
     </span><span class="p">}</span><span class="x">
 
     </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/key/info"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/v1/key/info"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
     </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
 
     </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
@@ -950,7 +971,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 </span><span class="p">}</span><span class="x">
 
 </span></code></pre>
-<p><code>GET /V1/key/info</code></p>
+<p><code>GET /v1/key/info</code></p>
 
 <p>Returns info about given API KEY</p>
 
@@ -970,7 +991,7 @@ curl -X GET https://reputation.link:3001/V1/key/info <span class="se">\</span>
 <td>header</td>
 <td>string</td>
 <td>true</td>
-<td>none</td>
+<td>API key</td>
 </tr>
 </tbody></table>
 
@@ -1013,20 +1034,23 @@ This operation does not require authentication
 <p>Code samples</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span class="o">=</span>string <span class="se">\</span>
-  -H <span class="s1">'Accept: application/json'</span>
+curl -X GET https://reputation.link:3001/v1/oracles/info?oracle_addres<span class="o">=</span>string <span class="se">\</span>
+  -H <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+  -H <span class="s1">'Authentication: string'</span>
 
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/oracles/info?oracle_addres=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/v1/oracles/info?oracle_addres=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authentication</span><span class="p">:</span> <span class="s">string</span>
 
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
+  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'Authentication'</span><span class="p">:</span><span class="s1">'string'</span>
 
 <span class="p">};</span>
 
 <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/oracles/info'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/v1/oracles/info'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">data</span><span class="p">:</span> <span class="s1">'?oracle_addres=string'</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
@@ -1038,11 +1062,12 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 </code></pre><pre class="highlight javascript tab-javascript--nodejs"><code><span class="kr">const</span> <span class="nx">fetch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'node-fetch'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
+  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'Authentication'</span><span class="p">:</span><span class="s1">'string'</span>
 
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/oracles/info?oracle_addres=string'</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/v1/oracles/info?oracle_addres=string'</span><span class="p">,</span>
 <span class="p">{</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
 
@@ -1058,10 +1083,11 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 <span class="nb">require</span> <span class="s1">'json'</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
+  <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'Authentication'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">}</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/oracles/info'</span><span class="p">,</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/v1/oracles/info'</span><span class="p">,</span>
   <span class="ss">params: </span><span class="p">{</span>
   <span class="s1">'oracle_addres'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
 <span class="p">},</span> <span class="ss">headers: </span><span class="n">headers</span>
@@ -1070,16 +1096,17 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 
 </code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/json'</span>
+  <span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/json'</span><span class="p">,</span>
+  <span class="s">'Authentication'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/oracles/info'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/v1/oracles/info'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
   <span class="s">'oracle_addres'</span><span class="p">:</span> <span class="s">'string'</span>
 <span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/oracles/info?oracle_addres=string"</span><span class="o">);</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/v1/oracles/info?oracle_addres=string"</span><span class="o">);</span>
 <span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
 <span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
 <span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
@@ -1104,11 +1131,12 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 
     </span><span class="n">headers</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">{</span><span class="x">
         </span><span class="s">"Accept"</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"application/json"</span><span class="p">},</span><span class="x">
+        </span><span class="s">"Authentication"</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"string"</span><span class="p">},</span><span class="x">
 
     </span><span class="p">}</span><span class="x">
 
     </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/oracles/info"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/v1/oracles/info"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
     </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
 
     </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
@@ -1117,9 +1145,9 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 </span><span class="p">}</span><span class="x">
 
 </span></code></pre>
-<p><code>GET /V1/oracles/info</code></p>
+<p><code>GET /v1/oracles/info</code></p>
 
-<p>Returns public data relevant to an oracle</p>
+<p>Returns Public endpoints data relevant to an oracle</p>
 
 <h3 id="metadata-on-oracles-parameters">Parameters</h3>
 
@@ -1138,6 +1166,13 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 <td>string</td>
 <td>true</td>
 <td>Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>header</td>
+<td>string</td>
+<td>true</td>
+<td>API key</td>
 </tr>
 </tbody></table>
 
@@ -1174,364 +1209,6 @@ curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres<span clas
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>See status error codes for error reporting</td>
 <td><a href="#schemaoracle_info">Oracle_info</a></td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-<h1 id="score-api-oracle-owners">Oracle owners</h1>
-
-<p>Operations available to oracle owners who registered their oracle on reputation.link</p>
-<h2 id='all-historical-data-relating-to-an-oracle'>All historical data relating to an oracle</h2>
-<p><a id="opIdfulhist"></a></p>
-
-<blockquote>
-<p>Code samples</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres<span class="o">=</span>string <span class="se">\</span>
-  -H <span class="s1">'Accept: application/json'</span>
-
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
-
-<span class="p">};</span>
-
-<span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/reputations/owner/historical'</span><span class="p">,</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="s1">'?oracle_addres=string'</span><span class="p">,</span>
-  <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
-  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-</code></pre><pre class="highlight javascript tab-javascript--nodejs"><code><span class="kr">const</span> <span class="nx">fetch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'node-fetch'</span><span class="p">);</span>
-
-<span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
-
-<span class="p">};</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string'</span><span class="p">,</span>
-<span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-
-  <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span>
-<span class="p">})</span>
-<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-
-</code></pre><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
-<span class="nb">require</span> <span class="s1">'json'</span>
-
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
-<span class="p">}</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/reputations/owner/historical'</span><span class="p">,</span>
-  <span class="ss">params: </span><span class="p">{</span>
-  <span class="s1">'oracle_addres'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
-<span class="p">},</span> <span class="ss">headers: </span><span class="n">headers</span>
-
-<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/json'</span>
-<span class="p">}</span>
-
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/reputations/owner/historical'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-  <span class="s">'oracle_addres'</span><span class="p">:</span> <span class="s">'string'</span>
-<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string"</span><span class="o">);</span>
-<span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
-<span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
-<span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
-<span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
-    <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">con</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
-<span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
-<span class="n">StringBuffer</span> <span class="n">response</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
-<span class="k">while</span> <span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">response</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
-<span class="o">}</span>
-<span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-
-</code></pre><pre class="highlight go tab-go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
-
-</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
-       </span><span class="s">"bytes"</span><span class="x">
-       </span><span class="s">"net/http"</span><span class="x">
-</span><span class="p">)</span><span class="x">
-
-</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
-
-    </span><span class="n">headers</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">{</span><span class="x">
-        </span><span class="s">"Accept"</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"application/json"</span><span class="p">},</span><span class="x">
-
-    </span><span class="p">}</span><span class="x">
-
-    </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/reputations/owner/historical"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
-    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
-
-    </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
-    </span><span class="n">resp</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">client</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
-    </span><span class="c">// ...</span><span class="x">
-</span><span class="p">}</span><span class="x">
-
-</span></code></pre>
-<p><code>GET /V1/reputations/owner/historical</code></p>
-
-<p>Returns all oracle performance data within a specified timeframe. The oracle must be registered on reputation.link with an account associated with their respective API key.</p>
-
-<h3 id="all-historical-data-relating-to-an-oracle-parameters">Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Name</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>oracle_addres</td>
-<td>query</td>
-<td>string</td>
-<td>true</td>
-<td>Addres of oracle</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Example responses</p>
-
-<p>200 Response</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">97521541</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ropsten"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"oracle_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"reputation"</span><span class="p">:</span><span class="w"> </span><span class="mf">95.4</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"total_requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">1400</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"total_responses"</span><span class="p">:</span><span class="w"> </span><span class="mi">1399</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"link_earned"</span><span class="p">:</span><span class="w"> </span><span class="mi">1450</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"avg_response_time"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"uptime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"unique_requestors"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"gas_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">134057</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"assignment_complete_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<h3 id="all-historical-data-relating-to-an-oracle-responses">Responses</h3>
-
-<table><thead>
-<tr>
-<th>Status</th>
-<th>Meaning</th>
-<th>Description</th>
-<th>Schema</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>200</td>
-<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
-<td>See status error codes for error reporting</td>
-<td><a href="#schemareputationarray">ReputationArray</a></td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-<h2 id='metadata-about-oracle'>metadata about oracle</h2>
-<p><a id="opIdfullatest"></a></p>
-
-<blockquote>
-<p>Code samples</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># You can also use wget</span>
-curl -X GET https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres<span class="o">=</span>string <span class="se">\</span>
-  -H <span class="s1">'Accept: application/json'</span>
-
-</code></pre><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">reputation.link:3001</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
-
-<span class="p">};</span>
-
-<span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://reputation.link:3001/V1/reputations/owner/latest/'</span><span class="p">,</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="s1">'?oracle_addres=string'</span><span class="p">,</span>
-  <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
-  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-
-</code></pre><pre class="highlight javascript tab-javascript--nodejs"><code><span class="kr">const</span> <span class="nx">fetch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'node-fetch'</span><span class="p">);</span>
-
-<span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span><span class="p">:</span><span class="s1">'application/json'</span>
-
-<span class="p">};</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string'</span><span class="p">,</span>
-<span class="p">{</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-
-  <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span>
-<span class="p">})</span>
-<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-
-</code></pre><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'rest-client'</span>
-<span class="nb">require</span> <span class="s1">'json'</span>
-
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
-<span class="p">}</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s1">'https://reputation.link:3001/V1/reputations/owner/latest/'</span><span class="p">,</span>
-  <span class="ss">params: </span><span class="p">{</span>
-  <span class="s1">'oracle_addres'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span>
-<span class="p">},</span> <span class="ss">headers: </span><span class="n">headers</span>
-
-<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/json'</span>
-<span class="p">}</span>
-
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://reputation.link:3001/V1/reputations/owner/latest/'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-  <span class="s">'oracle_addres'</span><span class="p">:</span> <span class="s">'string'</span>
-<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-
-</code></pre><pre class="highlight java tab-java"><code><span class="n">URL</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string"</span><span class="o">);</span>
-<span class="n">HttpURLConnection</span> <span class="n">con</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">obj</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
-<span class="n">con</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">);</span>
-<span class="kt">int</span> <span class="n">responseCode</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">();</span>
-<span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
-    <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">con</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
-<span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
-<span class="n">StringBuffer</span> <span class="n">response</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
-<span class="k">while</span> <span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">response</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
-<span class="o">}</span>
-<span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-
-</code></pre><pre class="highlight go tab-go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
-
-</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
-       </span><span class="s">"bytes"</span><span class="x">
-       </span><span class="s">"net/http"</span><span class="x">
-</span><span class="p">)</span><span class="x">
-
-</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
-
-    </span><span class="n">headers</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">{</span><span class="x">
-        </span><span class="s">"Accept"</span><span class="o">:</span><span class="x"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"application/json"</span><span class="p">},</span><span class="x">
-
-    </span><span class="p">}</span><span class="x">
-
-    </span><span class="n">data</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bytes</span><span class="o">.</span><span class="n">NewBuffer</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="n">jsonReq</span><span class="p">})</span><span class="x">
-    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="s">"https://reputation.link:3001/V1/reputations/owner/latest/"</span><span class="p">,</span><span class="x"> </span><span class="n">data</span><span class="p">)</span><span class="x">
-    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">headers</span><span class="x">
-
-    </span><span class="n">client</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{}</span><span class="x">
-    </span><span class="n">resp</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">client</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
-    </span><span class="c">// ...</span><span class="x">
-</span><span class="p">}</span><span class="x">
-
-</span></code></pre>
-<p><code>GET /V1/reputations/owner/latest/</code></p>
-
-<p>Returns public Oracle information</p>
-
-<h3 id="metadata-about-oracle-parameters">Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Name</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>oracle_addres</td>
-<td>query</td>
-<td>string</td>
-<td>true</td>
-<td>Returns latest oracle performance data. The oracle must be registered on reputation.link with an account associated with their respective API key.</td>
-</tr>
-</tbody></table>
-
-<blockquote>
-<p>Example responses</p>
-
-<p>200 Response</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">97521541</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ropsten"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"oracle_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"reputation"</span><span class="p">:</span><span class="w"> </span><span class="mf">95.4</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"total_requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">1400</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"total_responses"</span><span class="p">:</span><span class="w"> </span><span class="mi">1399</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"link_earned"</span><span class="p">:</span><span class="w"> </span><span class="mi">1450</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"avg_response_time"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"uptime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"unique_requestors"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"gas_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">134057</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"assignment_complete_ratio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h3 id="metadata-about-oracle-responses">Responses</h3>
-
-<table><thead>
-<tr>
-<th>Status</th>
-<th>Meaning</th>
-<th>Description</th>
-<th>Schema</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>200</td>
-<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
-<td>See status error codes for error reporting</td>
-<td><a href="#schemareputation">Reputation</a></td>
 </tr>
 </tbody></table>
 
