@@ -23,7 +23,7 @@ headingLevel: 2
 
 The sCORe API consists of multiple high-performance RESTful JSON endpoints that can be used to fetch data relevant to the historical performance and reputation of Chainlink Oracles. 
   
-There are client libraries written in [python](https://github.com/securedatalinks/reputation-score-python-client), [golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO). If you require different language functionality then be sure to get into contact.
+There are client libraries written in [python](https://github.com/securedatalinks/reputation-score-python-client), [golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](https://github.com/securedatalinks/slate/blob/master/swagger.yaml). If you require different language functionality then be sure to get into contact.
   
   
 # Quick Start Guide  
@@ -31,10 +31,10 @@ There are client libraries written in [python](https://github.com/securedatalink
 > Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
 
 ```shell  
-  curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
+  curl -X GET -H "Authentication: API_KEY" "reputation.link/v1/reputations/historical?start=0&end=99877754&oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"
 ```
 
-* Sign up for a free API key on [reputation.link](reputation.link). 
+* Sign up for a free API key on [reputation.link](https://reputation.link). 
 * If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. 
 * Once your key has been generated, make a test call to ensure functionality. 
 * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
@@ -44,12 +44,12 @@ There are client libraries written in [python](https://github.com/securedatalink
 
 > Here is an example using API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
 
-```shell   
-curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+```shell  
+  curl -X GET -H "Authentication: API_KEY" "reputation.link/v1/reputations/historical?start=0&end=99877754&oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"
 ```
 
 The API key must be included in all API requests via the HTTP header:
-`Authorization: API_KEY`  
+`Authentication: API_KEY`  
 
   
 # Standards and Conventions  
@@ -75,9 +75,9 @@ The API key must be included in all API requests via the HTTP header:
 * See [status codes and rate limits](#status-codes-and-rate-limits) for details on different status codes.
 
 ## Versioning  
-The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
+The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is v1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
   
-Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) to see those changes.  
+Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#changelog) to see those changes.  
 
 ### These updates are considered backwards compatible:  
   
@@ -88,11 +88,11 @@ Backwards compatible updates may be added to the API without creating new versio
  * Changing the way some data are computed, while not changing the range of possible values
   
 ## Date and Time Formats  
-* All endpoints that require date/time parameters allow timestamps to be passed in as either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) format or in Unix time frp,at (eg. 1528249600).  
-* All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ss`  
+* All endpoints that require date/time parameters allow timestamps to be passed as Unix time format (eg. 1528249600).  
+* All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ssZ`  
 * Data is collected, recorded, and reported in UTC time unless otherwise specified.  
   
-## Status codes and rate limits  
+## Status codes
 * Every endpoint responds with HTTP status code 200 for both succesful requests and failures. The `status` object is always included in the JSON response. This object contains `status_code` and `error_message`.  
 * If there was a problem processing the request, one of these status codes is returned.
   
@@ -118,12 +118,10 @@ At this point all data are updated every 5 minutes.
   
 Endpoint |  Error Message  
 -----------|---------------  
-[/V1/reputations/historical](#historical-reputation) | Historical data relating to an individual or multiple oracles
-[/V1/reputation/latest](#latest-reputation) | Latest data relating to an individual or multiple oracles  
-[/V1/key/info](#API-key-metadata) | Metadata relating to the API key used  
-[/V1/oracles/info](#oracle-info) | Public information relating to an individual or multiple oracless
-[/V1/reputations/full/latest](#oracle-latest-full-data) | Latest snapshot relating to the owners oracle
-[/V1/reputations/full/historical](#oracle-historical-full-data) | All historical monitored data about given oracle. Only for oracle owners.
+[/v1/reputations/historical](#historical-reputations-of-one-oracle) | Historical data relating to an individual oracle
+[/v1/reputations/latest](#get-last-reputation-for-one-oracle) | Latest data relating to an individual oracle
+[/v1/key/info](#meta-information-relating-to-a-specific-api-key) | Metadata relating to the API key used  
+[/v1/oracles/info](#metadata-on-oracles) | Public information relating to an individual oracle
 
 # Changelog
 30.1.2020 - First version of API
@@ -135,11 +133,11 @@ Base URLs:
 Email: <a href="mailto:inquiry@reputation.link">Support</a> 
 License: <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
 
-<h1 id="score-api-public">Public</h1>
+<h1 id="score-api-public-endpoints">Public endpoints</h1>
 
-Operations for retrieval of public reputation data.
+Operations for retrieval of reputation data.
 
-## historical reputations of one or all oracles
+## historical reputations of one oracle
 
 <a id="opIdrephist"></a>
 
@@ -147,14 +145,14 @@ Operations for retrieval of public reputation data.
 
 ```shell
 # You can also use wget
-curl -X GET https://reputation.link:3001/V1/reputations/historical?start=0&end=0&oracle_address=string \
+curl -X GET https://reputation.link:3001/v1/reputations/historical?start=0&end=0&oracle_address=string \
   -H 'Accept: application/json' \
   -H 'Authentication: string'
 
 ```
 
 ```http
-GET https://reputation.link:3001/V1/reputations/historical?start=0&end=0&oracle_address=string HTTP/1.1
+GET https://reputation.link:3001/v1/reputations/historical?start=0&end=0&oracle_address=string HTTP/1.1
 Host: reputation.link:3001
 Accept: application/json
 Authentication: string
@@ -169,7 +167,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://reputation.link:3001/V1/reputations/historical',
+  url: 'https://reputation.link:3001/v1/reputations/historical',
   method: 'get',
   data: '?start=0&end=0&oracle_address=string',
   headers: headers,
@@ -189,7 +187,7 @@ const headers = {
 
 };
 
-fetch('https://reputation.link:3001/V1/reputations/historical?start=0&end=0&oracle_address=string',
+fetch('https://reputation.link:3001/v1/reputations/historical?start=0&end=0&oracle_address=string',
 {
   method: 'GET',
 
@@ -212,7 +210,7 @@ headers = {
   'Authentication' => 'string'
 }
 
-result = RestClient.get 'https://reputation.link:3001/V1/reputations/historical',
+result = RestClient.get 'https://reputation.link:3001/v1/reputations/historical',
   params: {
   'start' => 'integer',
 'end' => 'integer',
@@ -230,7 +228,7 @@ headers = {
   'Authentication': 'string'
 }
 
-r = requests.get('https://reputation.link:3001/V1/reputations/historical', params={
+r = requests.get('https://reputation.link:3001/v1/reputations/historical', params={
   'start': '0',  'end': '0',  'oracle_address': 'string'
 }, headers = headers)
 
@@ -239,7 +237,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://reputation.link:3001/V1/reputations/historical?start=0&end=0&oracle_address=string");
+URL obj = new URL("https://reputation.link:3001/v1/reputations/historical?start=0&end=0&oracle_address=string");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -272,7 +270,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/reputations/historical", data)
+    req, err := http.NewRequest("GET", "https://reputation.link:3001/v1/reputations/historical", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -282,18 +280,18 @@ func main() {
 
 ```
 
-`GET /V1/reputations/historical`
+`GET /v1/reputations/historical`
 
 Returns each update of reputation between start and end periods for a given oracle
 
-<h3 id="historical-reputations-of-one-or-all-oracles-parameters">Parameters</h3>
+<h3 id="historical-reputations-of-one-oracle-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |start|query|integer|true|Get data after|
 |end|query|integer|true|Get data before|
-|oracle_address|query|string|true|Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods|
-|Authentication|header|string|true|none|
+|oracle_address|query|string|true|Get performance data for a specified oracle.|
+|Authentication|header|string|true|API key|
 
 > Example responses
 
@@ -318,7 +316,7 @@ Returns each update of reputation between start and end periods for a given orac
 ]
 ```
 
-<h3 id="historical-reputations-of-one-or-all-oracles-responses">Responses</h3>
+<h3 id="historical-reputations-of-one-oracle-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -328,7 +326,7 @@ Returns each update of reputation between start and end periods for a given orac
 This operation does not require authentication
 </aside>
 
-## get last reputation for one or all oracles
+## get last reputation for one oracle
 
 <a id="opIdreplate"></a>
 
@@ -336,14 +334,14 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X GET https://reputation.link:3001/V1/reputations/latest?oracle_address=string \
+curl -X GET https://reputation.link:3001/v1/reputations/latest?oracle_address=string \
   -H 'Accept: application/json' \
   -H 'Authentication: string'
 
 ```
 
 ```http
-GET https://reputation.link:3001/V1/reputations/latest?oracle_address=string HTTP/1.1
+GET https://reputation.link:3001/v1/reputations/latest?oracle_address=string HTTP/1.1
 Host: reputation.link:3001
 Accept: application/json
 Authentication: string
@@ -358,7 +356,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://reputation.link:3001/V1/reputations/latest',
+  url: 'https://reputation.link:3001/v1/reputations/latest',
   method: 'get',
   data: '?oracle_address=string',
   headers: headers,
@@ -378,7 +376,7 @@ const headers = {
 
 };
 
-fetch('https://reputation.link:3001/V1/reputations/latest?oracle_address=string',
+fetch('https://reputation.link:3001/v1/reputations/latest?oracle_address=string',
 {
   method: 'GET',
 
@@ -401,7 +399,7 @@ headers = {
   'Authentication' => 'string'
 }
 
-result = RestClient.get 'https://reputation.link:3001/V1/reputations/latest',
+result = RestClient.get 'https://reputation.link:3001/v1/reputations/latest',
   params: {
   'oracle_address' => 'string'
 }, headers: headers
@@ -417,7 +415,7 @@ headers = {
   'Authentication': 'string'
 }
 
-r = requests.get('https://reputation.link:3001/V1/reputations/latest', params={
+r = requests.get('https://reputation.link:3001/v1/reputations/latest', params={
   'oracle_address': 'string'
 }, headers = headers)
 
@@ -426,7 +424,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://reputation.link:3001/V1/reputations/latest?oracle_address=string");
+URL obj = new URL("https://reputation.link:3001/v1/reputations/latest?oracle_address=string");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -459,7 +457,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/reputations/latest", data)
+    req, err := http.NewRequest("GET", "https://reputation.link:3001/v1/reputations/latest", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -469,16 +467,16 @@ func main() {
 
 ```
 
-`GET /V1/reputations/latest`
+`GET /v1/reputations/latest`
 
 Returns latest update of reputation of given oracle
 
-<h3 id="get-last-reputation-for-one-or-all-oracles-parameters">Parameters</h3>
+<h3 id="get-last-reputation-for-one-oracle-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|oracle_address|query|string|true|Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods|
-|Authentication|header|string|true|none|
+|oracle_address|query|string|true|Get performance data for a specified oracle.|
+|Authentication|header|string|true|API key|
 
 > Example responses
 
@@ -501,7 +499,7 @@ Returns latest update of reputation of given oracle
 }
 ```
 
-<h3 id="get-last-reputation-for-one-or-all-oracles-responses">Responses</h3>
+<h3 id="get-last-reputation-for-one-oracle-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -519,14 +517,14 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X GET https://reputation.link:3001/V1/key/info \
+curl -X GET https://reputation.link:3001/v1/key/info \
   -H 'Accept: application/json' \
   -H 'Authentication: string'
 
 ```
 
 ```http
-GET https://reputation.link:3001/V1/key/info HTTP/1.1
+GET https://reputation.link:3001/v1/key/info HTTP/1.1
 Host: reputation.link:3001
 Accept: application/json
 Authentication: string
@@ -541,7 +539,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://reputation.link:3001/V1/key/info',
+  url: 'https://reputation.link:3001/v1/key/info',
   method: 'get',
 
   headers: headers,
@@ -561,7 +559,7 @@ const headers = {
 
 };
 
-fetch('https://reputation.link:3001/V1/key/info',
+fetch('https://reputation.link:3001/v1/key/info',
 {
   method: 'GET',
 
@@ -584,7 +582,7 @@ headers = {
   'Authentication' => 'string'
 }
 
-result = RestClient.get 'https://reputation.link:3001/V1/key/info',
+result = RestClient.get 'https://reputation.link:3001/v1/key/info',
   params: {
   }, headers: headers
 
@@ -599,7 +597,7 @@ headers = {
   'Authentication': 'string'
 }
 
-r = requests.get('https://reputation.link:3001/V1/key/info', params={
+r = requests.get('https://reputation.link:3001/v1/key/info', params={
 
 }, headers = headers)
 
@@ -608,7 +606,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://reputation.link:3001/V1/key/info");
+URL obj = new URL("https://reputation.link:3001/v1/key/info");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -641,7 +639,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/key/info", data)
+    req, err := http.NewRequest("GET", "https://reputation.link:3001/v1/key/info", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -651,7 +649,7 @@ func main() {
 
 ```
 
-`GET /V1/key/info`
+`GET /v1/key/info`
 
 Returns info about given API KEY
 
@@ -659,7 +657,7 @@ Returns info about given API KEY
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|Authentication|header|string|true|none|
+|Authentication|header|string|true|API key|
 
 > Example responses
 
@@ -691,26 +689,29 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X GET https://reputation.link:3001/V1/oracles/info?oracle_addres=string \
-  -H 'Accept: application/json'
+curl -X GET https://reputation.link:3001/v1/oracles/info?oracle_addres=string \
+  -H 'Accept: application/json' \
+  -H 'Authentication: string'
 
 ```
 
 ```http
-GET https://reputation.link:3001/V1/oracles/info?oracle_addres=string HTTP/1.1
+GET https://reputation.link:3001/v1/oracles/info?oracle_addres=string HTTP/1.1
 Host: reputation.link:3001
 Accept: application/json
+Authentication: string
 
 ```
 
 ```javascript
 var headers = {
-  'Accept':'application/json'
+  'Accept':'application/json',
+  'Authentication':'string'
 
 };
 
 $.ajax({
-  url: 'https://reputation.link:3001/V1/oracles/info',
+  url: 'https://reputation.link:3001/v1/oracles/info',
   method: 'get',
   data: '?oracle_addres=string',
   headers: headers,
@@ -725,11 +726,12 @@ $.ajax({
 const fetch = require('node-fetch');
 
 const headers = {
-  'Accept':'application/json'
+  'Accept':'application/json',
+  'Authentication':'string'
 
 };
 
-fetch('https://reputation.link:3001/V1/oracles/info?oracle_addres=string',
+fetch('https://reputation.link:3001/v1/oracles/info?oracle_addres=string',
 {
   method: 'GET',
 
@@ -748,10 +750,11 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Accept' => 'application/json'
+  'Accept' => 'application/json',
+  'Authentication' => 'string'
 }
 
-result = RestClient.get 'https://reputation.link:3001/V1/oracles/info',
+result = RestClient.get 'https://reputation.link:3001/v1/oracles/info',
   params: {
   'oracle_addres' => 'string'
 }, headers: headers
@@ -763,10 +766,11 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Accept': 'application/json'
+  'Accept': 'application/json',
+  'Authentication': 'string'
 }
 
-r = requests.get('https://reputation.link:3001/V1/oracles/info', params={
+r = requests.get('https://reputation.link:3001/v1/oracles/info', params={
   'oracle_addres': 'string'
 }, headers = headers)
 
@@ -775,7 +779,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://reputation.link:3001/V1/oracles/info?oracle_addres=string");
+URL obj = new URL("https://reputation.link:3001/v1/oracles/info?oracle_addres=string");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -803,11 +807,12 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
+        "Authentication": []string{"string"},
         
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/oracles/info", data)
+    req, err := http.NewRequest("GET", "https://reputation.link:3001/v1/oracles/info", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -817,15 +822,16 @@ func main() {
 
 ```
 
-`GET /V1/oracles/info`
+`GET /v1/oracles/info`
 
-Returns public data relevant to an oracle
+Returns Public endpoints data relevant to an oracle
 
 <h3 id="metadata-on-oracles-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |oracle_addres|query|string|true|Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods|
+|Authentication|header|string|true|API key|
 
 > Example responses
 
@@ -851,362 +857,6 @@ Returns public data relevant to an oracle
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|See status error codes for error reporting|[Oracle_info](#schemaoracle_info)|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-<h1 id="score-api-oracle-owners">Oracle owners</h1>
-
-Operations available to oracle owners who registered their oracle on reputation.link
-
-## All historical data relating to an oracle
-
-<a id="opIdfulhist"></a>
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string \
-  -H 'Accept: application/json'
-
-```
-
-```http
-GET https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string HTTP/1.1
-Host: reputation.link:3001
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json'
-
-};
-
-$.ajax({
-  url: 'https://reputation.link:3001/V1/reputations/owner/historical',
-  method: 'get',
-  data: '?oracle_addres=string',
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json'
-
-};
-
-fetch('https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json'
-}
-
-result = RestClient.get 'https://reputation.link:3001/V1/reputations/owner/historical',
-  params: {
-  'oracle_addres' => 'string'
-}, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json'
-}
-
-r = requests.get('https://reputation.link:3001/V1/reputations/owner/historical', params={
-  'oracle_addres': 'string'
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://reputation.link:3001/V1/reputations/owner/historical?oracle_addres=string");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/reputations/owner/historical", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /V1/reputations/owner/historical`
-
-Returns all oracle performance data within a specified timeframe. The oracle must be registered on reputation.link with an account associated with their respective API key.
-
-<h3 id="all-historical-data-relating-to-an-oracle-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|oracle_addres|query|string|true|Addres of oracle|
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "timestamp": 97521541,
-    "network": "Ropsten",
-    "oracle_address": "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D",
-    "reputation": 95.4,
-    "total_requests": 1400,
-    "total_responses": 1399,
-    "link_earned": 1450,
-    "avg_response_time": 0.99,
-    "uptime": 0.999,
-    "unique_requestors": 40,
-    "gas_price": 134057,
-    "assignment_complete_ratio": 0.99
-  }
-]
-```
-
-<h3 id="all-historical-data-relating-to-an-oracle-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|See status error codes for error reporting|[ReputationArray](#schemareputationarray)|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## metadata about oracle
-
-<a id="opIdfullatest"></a>
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string \
-  -H 'Accept: application/json'
-
-```
-
-```http
-GET https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string HTTP/1.1
-Host: reputation.link:3001
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json'
-
-};
-
-$.ajax({
-  url: 'https://reputation.link:3001/V1/reputations/owner/latest/',
-  method: 'get',
-  data: '?oracle_addres=string',
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json'
-
-};
-
-fetch('https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json'
-}
-
-result = RestClient.get 'https://reputation.link:3001/V1/reputations/owner/latest/',
-  params: {
-  'oracle_addres' => 'string'
-}, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json'
-}
-
-r = requests.get('https://reputation.link:3001/V1/reputations/owner/latest/', params={
-  'oracle_addres': 'string'
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://reputation.link:3001/V1/reputations/owner/latest/?oracle_addres=string");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://reputation.link:3001/V1/reputations/owner/latest/", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /V1/reputations/owner/latest/`
-
-Returns public Oracle information
-
-<h3 id="metadata-about-oracle-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|oracle_addres|query|string|true|Returns latest oracle performance data. The oracle must be registered on reputation.link with an account associated with their respective API key.|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "timestamp": 97521541,
-  "network": "Ropsten",
-  "oracle_address": "0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D",
-  "reputation": 95.4,
-  "total_requests": 1400,
-  "total_responses": 1399,
-  "link_earned": 1450,
-  "avg_response_time": 0.99,
-  "uptime": 0.999,
-  "unique_requestors": 40,
-  "gas_price": 134057,
-  "assignment_complete_ratio": 0.99
-}
-```
-
-<h3 id="metadata-about-oracle-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|See status error codes for error reporting|[Reputation](#schemareputation)|
 
 <aside class="success">
 This operation does not require authentication

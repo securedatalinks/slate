@@ -6,7 +6,7 @@ info:
 
     The sCORe API consists of multiple high-performance RESTful JSON endpoints that can be used to fetch data relevant to the historical performance and reputation of Chainlink Oracles. 
       
-    There are client libraries written in [python](https://github.com/securedatalinks/reputation-score-python-client), [golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](#TODO). If you require different language functionality then be sure to get into contact.
+    There are client libraries written in [python](https://github.com/securedatalinks/reputation-score-python-client), [golang](https://github.com/securedatalinks/reputation-score-golang-client) and [nodejs](https://github.com/securedatalinks/reputation-score-js-client) generated from [swagger file](https://github.com/securedatalinks/slate/blob/master/swagger.yaml). If you require different language functionality then be sure to get into contact.
       
       
     # Quick Start Guide  
@@ -14,10 +14,10 @@ info:
     > Get all snapshots of securedatalinks oracle reputation taken on 27.1.2020
     
     ```shell  
-      curl -X POST -d "from=9870454" -d "to=9877754" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" -H "Authorization: API_KEY" reputation.link/reputation-interval
+      curl -X GET -H "Authentication: API_KEY" "reputation.link/v1/reputations/historical?start=0&end=99877754&oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"
     ```
 
-    * Sign up for a free API key on [reputation.link](reputation.link). 
+    * Sign up for a free API key on [reputation.link](https://reputation.link). 
     * If you operate an Oracle then be sure to register to to display your performance data on our frontend as well as gain full access to the sCORe API depending on your subscription. 
     * Once your key has been generated, make a test call to ensure functionality. 
     * Check the example on the right, which fetches the up-to-date data relating to the Secure Data Links Oracle.
@@ -28,12 +28,12 @@ info:
 
     > Here is an example using API_KEY in HTTP headers'. Make sure to replace `API_KEY` with your newly generated key.  
 
-    ```shell   
-    curl -X POST -H "Authorization: API_KEY"  -d "from=1580083200" -d "to=1580183200" -d "oracle_url=0xB0Cf943Cf94E7B6A2657D15af41c5E06c2BFEA3D" reputation.link/reputation-interval
+    ```shell  
+      curl -X GET -H "Authentication: API_KEY" "reputation.link/v1/reputations/historical?start=0&end=99877754&oracle_address=0x240BaE5A27233Fd3aC5440B5a598467725F7D1cd"
     ```
 
     The API key must be included in all API requests via the HTTP header:
-    `Authorization: API_KEY`  
+    `Authentication: API_KEY`  
 
     
       
@@ -61,9 +61,9 @@ info:
 
     
     ## Versioning  
-    The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is V1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
+    The sCORe API is versioned to ensure that any updates do not break anything. The latest version of this API is v1.0.0.  When testing the sCORe API ensure that the version you are using is correct.  
       
-    Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#Changelog) to see those changes.  
+    Backwards compatible updates may be added to the API without creating new version. You can check our [Changelog](#changelog) to see those changes.  
     
     ### These updates are considered backwards compatible:  
       
@@ -74,11 +74,11 @@ info:
      * Changing the way some data are computed, while not changing the range of possible values
       
     ## Date and Time Formats  
-    * All endpoints that require date/time parameters allow timestamps to be passed in as either `yyyy-mm-dd hh:mm:ss` (eq.2018-06-22 01:46:40) format or in Unix time frp,at (eg. 1528249600).  
-    * All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ss`  
+    * All endpoints that require date/time parameters allow timestamps to be passed as Unix time format (eg. 1528249600).  
+    * All timestamps returned in JSON payloads are returned in UTC time using a human-readable format which follows this pattern: `yyyy-mm-dd hh:mm:ssZ`  
     * Data is collected, recorded, and reported in UTC time unless otherwise specified.  
       
-    ## Status codes and rate limits  
+    ## Status codes
     * Every endpoint responds with HTTP status code 200 for both succesful requests and failures. The `status` object is always included in the JSON response. This object contains `status_code` and `error_message`.  
     * If there was a problem processing the request, one of these status codes is returned.
       
@@ -105,12 +105,10 @@ info:
       
     Endpoint |  Error Message  
     -----------|---------------  
-    [/V1/reputations/historical](#historical-reputation) | Historical data relating to an individual or multiple oracles
-    [/V1/reputation/latest](#latest-reputation) | Latest data relating to an individual or multiple oracles  
-    [/V1/key/info](#API-key-metadata) | Metadata relating to the API key used  
-    [/V1/oracles/info](#oracle-info) | Public information relating to an individual or multiple oracless
-    [/V1/reputations/full/latest](#oracle-latest-full-data) | Latest snapshot relating to the owners oracle
-    [/V1/reputations/full/historical](#oracle-historical-full-data) | All historical monitored data about given oracle. Only for oracle owners.
+    [/v1/reputations/historical](#historical-reputations-of-one-oracle) | Historical data relating to an individual oracle
+    [/v1/reputations/latest](#get-last-reputation-for-one-oracle) | Latest data relating to an individual oracle
+    [/v1/key/info](#meta-information-relating-to-a-specific-api-key) | Metadata relating to the API key used  
+    [/v1/oracles/info](#metadata-on-oracles) | Public information relating to an individual oracle
 
     # Changelog
     30.1.2020 - First version of API
@@ -122,16 +120,14 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
-  - name: Public
-    description: Operations for retrieval of public reputation data.
-  - name: Oracle owners
-    description: Operations available to oracle owners who registered their oracle on reputation.link
+  - name: Public endpoints
+    description: Operations for retrieval of reputation data.
 paths:
-  /V1/reputations/historical:
+  /v1/reputations/historical:
     get:
       tags:
-        - Public
-      summary: historical reputations of one or all oracles
+        - Public endpoints
+      summary: historical reputations of one oracle
       operationId: rephist
       description: Returns each update of reputation between start and end periods for a given oracle
       consumes:
@@ -151,10 +147,11 @@ paths:
           required: true
         - in: query
           name: oracle_address
-          description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
+          description: 'Get performance data for a specified oracle.'
           type: string
           required: true
         - in: header
+          description: 'API key'
           name: Authentication
           type: string
           required: true
@@ -163,11 +160,11 @@ paths:
           description: A User object
           schema:
             $ref: '#/definitions/ReputationArray'
-  /V1/reputations/latest:
+  /v1/reputations/latest:
     get:
       tags:
-        - Public
-      summary: get last reputation for one or all oracles
+        - Public endpoints
+      summary: get last reputation for one oracle
       operationId: replate
       description: Returns latest update of reputation of given oracle
       consumes:
@@ -177,11 +174,12 @@ paths:
       parameters:
         - in: query
           name: oracle_address
-          description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
+          description: 'Get performance data for a specified oracle.'
           type: string
           required: true
         - in: header
           name: Authentication
+          description: 'API key'
           type: string
           required: true
       responses:
@@ -189,10 +187,10 @@ paths:
           description: See status error codes for error reporting
           schema:
             $ref: '#/definitions/Reputation'
-  /V1/key/info:
+  /v1/key/info:
     get:
       tags:
-        - Public
+        - Public endpoints
       summary: 'Meta information relating to a specific API key'
       operationId: getKeyInfo
       description: Returns info about given API KEY
@@ -203,6 +201,7 @@ paths:
       parameters:
         - in: header
           name: Authentication
+          description: 'API key'
           type: string
           required: true
       responses:
@@ -210,13 +209,13 @@ paths:
           description: See status error codes for error reporting
           schema:
             $ref: '#/definitions/Key_info'
-  /V1/oracles/info:
+  /v1/oracles/info:
     get:
       tags:
-        - Public
+        - Public endpoints
       summary: Metadata on oracles
       operationId: Oracles
-      description: Returns public data relevant to an oracle
+      description: Returns Public endpoints data relevant to an oracle
       consumes:
         - application/json
       produces:
@@ -227,55 +226,16 @@ paths:
           description: 'Get performance data for a specified oracle. If missing, get all oracles that were active between start and end periods'
           type: string
           required: true
+        - in: header
+          description: 'API key'
+          name: Authentication
+          type: string
+          required: true
       responses:
         '200':
           description: See status error codes for error reporting
           schema:
             $ref: '#/definitions/Oracle_info'
-  /V1/reputations/owner/historical:
-    get:
-      tags:
-        - Oracle owners
-      summary: All historical data relating to an oracle
-      operationId: fulhist
-      description: Returns all oracle performance data within a specified timeframe. The oracle must be registered on reputation.link with an account associated with their respective API key.
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: oracle_addres
-          description: Addres of oracle
-          type: string
-          required: true
-      responses:
-        '200':
-          description: See status error codes for error reporting
-          schema:
-            $ref: '#/definitions/ReputationArray'
-  /V1/reputations/owner/latest/:
-    get:
-      tags:
-        - Oracle owners
-      summary: metadata about oracle
-      operationId: fullatest
-      description: Returns public Oracle information
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: oracle_addres
-          description: Returns latest oracle performance data. The oracle must be registered on reputation.link with an account associated with their respective API key.
-          type: string
-          required: true
-      responses:
-        '200':
-          description: See status error codes for error reporting
-          schema:
-            $ref: '#/definitions/Reputation'
 definitions:
   Reputation:
     type: object
@@ -401,5 +361,3 @@ host: 'reputation.link:3001'
 basePath: /
 schemes:
   - https
-
-
